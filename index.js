@@ -9,7 +9,7 @@ console.log(fm.CheckPrime(7) + " " + fm.CheckPrime(6)); // test Prime Checker
 console.log(fm.Pascal(9));  // test Pascal's Triangle
 console.log(fm.nCr(9, 0));  // test nCr
 console.log(fm.nCr(9, 10)); // force nCr error
-console.log(fm.BinomialExpansion(4)); // expand (a+b)^4
+console.log(fm.BinomialExpansion(9)); // expand (a+b)^9
 
 module.exports = {
     FMaths : require('./FMaths')
