@@ -1,3 +1,0 @@
-C:\Users\Main\Documents\foxlib\obj\Debug\foxlib.njsprojAssemblyReference.cache
-C:\Users\Main\Documents\foxlib\obj\Debug\foxlib.njsproj.CoreCompileInputs.cache
-C:\Users\Main\Documents\foxlib\bin\Microsoft.NodejsTools.WebRole.dll
