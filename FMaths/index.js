@@ -1,21 +1,36 @@
-﻿module.exports = class FMaths {
+﻿/**
+ * @file 
+ *  foxlib Maths Library
+ *  (In the future each of these methods will be seperated into different source files.)
+ */
+module.exports = class FMaths {
     constructor(n) {
         this.n = n;
     }
 
     /**
-     * Returns an integer of n!.
-     * @param { Integer to evaluate as a factorial} n 
+     * Evaluates n!
+     * 
+     * @param { number } n 
+     *  Number to evaluate as a factorial.
+     * 
+     * @return { number }
+     *  Returns n factorial.
      */
     Factorial(n) {
         return n ? n * this.Factorial(n - 1) : 1;
     }
 
     /**
-     * Returns a boolean; true if n is prime.
-     * @param { Integer to check } n 
+     * Evaluates n to see if it is a prime number.
+     * 
+     * @param { number } n
+     *  Number to check if prime. 
+     * 
+     * @return { boolean } 
+     *  Boolean
      */
-    CheckPrime(n) {
+    CheckPrime(n) { // make a mersenne prime checker, as well.
         if (n === 1) {
             return false;
         }
@@ -31,8 +46,13 @@
     }
 
     /**
-     * Returns a nested array with rows of Pascal's Triangle.
-     * @param { Generates Pascal's Triangle up to the n'th row } n 
+     * Generates Pascal's Triangle to the n'th row. 
+     * 
+     * @param {number} n
+     *  The number of rows with which to generate Pascal's Triangle.
+     * 
+     * @return 
+     *  A nested array with rows of Pascal's Triangle up to the n'th row.
      */
     Pascal(n) {
         let result = [];
@@ -49,9 +69,14 @@
     }
 
     /**
-     * Returns an evaluation of 'n Choose r'.
-     * @param { Generates Pascal's Triangle up to the n'th row } n 
-     * @param { Finds the number at row r} r 
+     * Evaluation of 'n Choose r', or 'nCr'.
+     * 
+     * @param { number } n 
+     *  Creates Pascal's Triangle to the n'th row.
+     * @param { number } r 
+     *  Finds the number in column r of row n.
+     * @return { number }
+     *  Returns term in column r of row n.
      */
     nCr(n, r) {
         let output;
@@ -63,31 +88,97 @@
     }
 
     /**
-     * Form: (a [+|-] b)^n
-     * Returns a string of the Expanded Binomial.
-     * @param { Constant A } a 
-     * @param { Constant B } b 
-     * @param { Exponent (a +|- b) } x 
-     * @param { Operator +|- } o 
+     * Form: (a [+|-] b)^x
+     * @param { number } x
+     *  Exponent x 
+     * @param { string } [o="+"]
+     *  Can be '+' or '-'. 
+     * @param { number } [a]
+     *  Variable a
+     * @param { number } [b] 
+     *  Variable b
+     * 
+     * @return { string }
+     *  Returns a string of the Expanded Binomial.
      */
-    BinomialExpansion(x, o, a, b) {
+    // May have to attempt to overhaul the system with a different equation to allow for (xa + yb)^n
+    // Start with overhauling the parameters, so that they are properties.
+    BinomialTheorem(x, o, a, b, aconst, bconst) {
         var aexp = x;
         var bexp = 0;
         var result = "";
 
-        if (!o === "+" || !o === "-") return console.log("invalid operator");
-        else if (!o) o = "+";
+        if (!o === "+" || !o === "-") return console.log("invalid operator"); // assure that the input operator is either "+" or "-".
+        else if (!o) o = "+"; // assume the operator is "+" if no operator is given.
 
-        if (!a && !b) {
+        if ((!a && !b) || (a === 'a' && b === 'b')) { // if a and b are both undefined, equal to 'a' and 'b'
             result += "1a^" + aexp + ` ${o} `;
             for (var i = 0; i <= x - 1; i++) {
                 let r = i + 1;
-                aexp--;
-                bexp++;
-                if (i < x - 1) result += this.nCr(x, r) + `a^${aexp}` + `b^${bexp}` + ` ${o} `;
-                else result += this.nCr(x, r) + `a^${aexp}` + `b^${bexp}`;
+
+                aexp--; bexp++;
+
+                if (i < x - 1) result += this.nCr(x, r) + `a^${aexp}b^${bexp} ${o} `;
+                else result += this.nCr(x, r) + `a^${aexp}b^${bexp}`;
             }
             return result;
         }
+
+        else if ((a && b === 'b')) { // if a is present and b is undefined.
+            // printing the first term manually ensures that it is always correct.
+            // we can do this because the first constant in every expanded binomial is '1'.
+            result += `${1 * a ** aexp} ${o} `;
+
+            for (var i = 0; i <= x - 1; i++) {
+                let r = i + 1; // ensure that the first term of Pascal's Triangle is skipped over.
+                let t = this.nCr(x, r);
+
+                aexp--; bexp++;
+
+                if (i < x - 1) {
+                    result += `${t * a ** aexp}b^${bexp} ${o} `;
+                }
+                else {
+                    result += `${t * a ** aexp}b^${bexp}`;
+                }
+            }
+            return result;
+        }
+
+        else if (a === 'a') { // if b is present and a is undefined.
+            result += `1a^${aexp} ${o} `;
+            for (var i = 0; i <= x - 1; i++) {
+                let r = i + 1;
+                let t = this.nCr(x, r);
+
+                aexp--; bexp++;
+
+                if (i < x - 1) {
+                    result += `${t * b ** bexp}a^${aexp} ${o} `;
+                }
+                else {
+                    result += `${t * b ** bexp}a^${aexp}`;
+                }
+            }
+            return result;
+        }
+
+        else if (aconst) { // if a has a constant --- WORK ON THIS NEXT
+            result += `1a^${aexp} ${o} `;
+            for (var i = 0; i <= x - 1; i++) {
+                let r = i + 1;
+                let t = this.nCr(x, r);
+
+                aexp--; bexp++;
+
+                if (i < x - 1) {
+                    result += `${t * (a ** aexp) * (b ** bexp)} ${o} `;
+                }
+                else {
+                    result += `${t * (a ** aexp) * (b ** bexp)}`;
+                }
+            }
+            return result;
+        } 
     }
 }
