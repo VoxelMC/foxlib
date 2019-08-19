@@ -108,10 +108,14 @@ module.exports = class FMaths {
         var bexp = 0;
         var result = "";
 
+        if (!aconst || aconst === 0) aconst = 1;
+        if (!bconst || bconst === 0) bconst = 1;
+
         if (!o === "+" || !o === "-") return console.log("invalid operator"); // assure that the input operator is either "+" or "-".
         else if (!o) o = "+"; // assume the operator is "+" if no operator is given.
 
-        if ((!a && !b) || (a === 'a' && b === 'b')) { // if a and b are both undefined, equal to 'a' and 'b'
+        // ONLY X
+        if (((!a && !b) || (a === 'a' && b === 'b')) && aconst === 1 && bconst === 1) { // if a and b are both undefined, equal to 'a' and 'b'
             result += "1a^" + aexp + ` ${o} `;
             for (var i = 0; i <= x - 1; i++) {
                 let r = i + 1;
@@ -124,7 +128,64 @@ module.exports = class FMaths {
             return result;
         }
 
-        else if ((a && b === 'b')) { // if a is present and b is undefined.
+        // IF THERE ARE ANY CONSTANTS
+        else if ((a === 'a' && b === 'b') && (aconst > 1 || bconst > 1)) {
+            if (aconst > 0 && bconst > 0) {
+                result += `${(aconst ** aexp) * (bconst ** bexp)}a^${aexp}b^${bexp} ${o} `;
+                for (var i = 0; i <= x - 1; i++) {
+                    let r = i + 1;
+                    let t = this.nCr(x, r);
+    
+                    aexp--; bexp++;
+    
+                    if (i < x - 1) {
+                        result += `${t * (aconst ** aexp) * (bconst ** bexp)}a^${aexp}b^${bexp} ${o} `;
+                    }
+                    else {
+                        result += `${t * (aconst ** aexp) * (bconst ** bexp)}a^${aexp}b^${bexp}`;
+                    }
+                }
+                return result;
+            }
+            
+            /* THIS IS DEPRECATED, BUT KEEP IT FOR EXAMPLE OF LEARNING.
+            else if (aconst < 0 && bconst === 0) {
+                result += `${(aconst ** aexp) * (bconst ** bexp)}a^${aexp}b^${bexp} ${o} `;
+                for (var i = 0; i <= x - 1; i++) {
+                    let r = i + 1;
+                    let t = this.nCr(x, r);
+    
+                    aexp--; bexp++;
+    
+                    if (i < x - 1) {
+                        result += `${t * (aconst ** aexp)}a^${aexp}b^${bexp} ${o} `;
+                    }
+                    else {
+                        result += `${t * (aconst ** aexp)}a^${aexp}b^${bexp}`;
+                    }
+                }
+            }
+
+            else if (bconst < 0 && aconst === 0) {
+                result += `${(aconst ** aexp) * (bconst ** bexp)}a^${aexp}b^${bexp} ${o} `;
+                for (var i = 0; i <= x - 1; i++) {
+                    let r = i + 1;
+                    let t = this.nCr(x, r);
+    
+                    aexp--; bexp++;
+    
+                    if (i < x - 1) {
+                        result += `${t * (bconst ** bexp)}a^${aexp}b^${bexp} ${o} `;
+                    }
+                    else {
+                        result += `${t * (bconst ** bexp)}a^${aexp}b^${bexp}`;
+                    }
+                }
+            } */
+        }
+
+        // IF A IS AN INTEGER AND B == B OR UNDEFINED
+        else if ((a && b === 'b') || (a !== 'a' && !b)) { // if a is present and b is undefined.
             // printing the first term manually ensures that it is always correct.
             // we can do this because the first constant in every expanded binomial is '1'.
             result += `${1 * a ** aexp} ${o} `;
@@ -145,7 +206,7 @@ module.exports = class FMaths {
             return result;
         }
 
-        else if (a === 'a') { // if b is present and a is undefined.
+        else if (a === 'a' && b) { // if b is present and a is undefined.
             result += `1a^${aexp} ${o} `;
             for (var i = 0; i <= x - 1; i++) {
                 let r = i + 1;
@@ -162,23 +223,5 @@ module.exports = class FMaths {
             }
             return result;
         }
-
-        else if (aconst) { // if a has a constant --- WORK ON THIS NEXT
-            result += `1a^${aexp} ${o} `;
-            for (var i = 0; i <= x - 1; i++) {
-                let r = i + 1;
-                let t = this.nCr(x, r);
-
-                aexp--; bexp++;
-
-                if (i < x - 1) {
-                    result += `${t * (a ** aexp) * (b ** bexp)} ${o} `;
-                }
-                else {
-                    result += `${t * (a ** aexp) * (b ** bexp)}`;
-                }
-            }
-            return result;
-        } 
     }
 }
