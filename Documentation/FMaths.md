@@ -37,7 +37,7 @@ This is a list of functions written into the FMaths library.
 
 ### Factorial(n)
 
-Evaluates `n` factorial (n!).
+Evaluates `n` factorial (n!).  
 Returns `int`.
 
 #### Usage
@@ -50,7 +50,7 @@ console.log(flib.Factorial(12));
 
 ### CheckPrime(n)
 
-Checks if `n` is a prime number.
+Checks if `n` is a prime number.  
 Returns `bool`.
 
 #### Usage
@@ -65,7 +65,7 @@ console.log(flib.CheckPrime(6));
 
 ### Pascal(n)
 
-Generates [Pascal's Triangle](https://en.wikipedia.org/wiki/Pascal%27s_triangle) up to the `n`'th row.
+Generates [Pascal's Triangle](https://en.wikipedia.org/wiki/Pascal%27s_triangle) up to the `n`'th row.  
 Returns `array[][]`.
 
 #### Usage
@@ -78,7 +78,7 @@ console.log(fm.Pascal(4));
 
 ### nCr(n, r)
 
-Finds the `r`'th `integer` in row `n` of Pascal's Triangle
+Finds the `r`'th `integer` in row `n` of Pascal's Triangle.  
 Returns `int`.
 
 #### Usage
@@ -92,15 +92,16 @@ console.log(fm.nCr(4, 2))
 
 ### BinomialTheorem(n, o, a, b, x, y)
 
-Expands a binomial of the form `(xa +/- yb)^n`.
+Expands a binomial of the form `(xa +/- yb)^n`.  
+Returns `string`.
 
 #### Parameters
-`n` - (`int`, required) - Exponent
-`o` - (`string`, optional, defaults to `"+"`) - Operator, can only be `"+"` or `"-"`.
-`a` - (`int` or `string`, optional) - First variable, can be `undefined`, or assigned to `"a"` or an `int`.
-`b` - (`int` or `string`, optional) - Second variable, can be `undefined`, or assigned to `"b"` or an `int`.
-`x` - (`int`, optional, defaults to `1`) - Constant of `a`.
-`y` - (`int`, optional, defaults to `1`) - Constant of `b`.
+- `n` - (`int`, required) - Exponent.  
+- `o` - (`string`, optional, defaults to `"+"`) - Operator, can only be `"+"` or `"-"`.  
+- `a` - (`int` or `string`, optional) - First variable, can be `undefined`, or assigned to `"a"` or an `int`.  
+- `b` - (`int` or `string`, optional) - Second variable, can be `undefined`, or assigned to `"b"` or an `int`.  
+- `x` - (`int`, optional, defaults to `1`) - Constant of `a`.  
+- `y` - (`int`, optional, defaults to `1`) - Constant of `b`.  
 
 #### Usage
 
