@@ -22,4 +22,4 @@ var flib = require('foxlib');
 
 ### Usage
 
-For info on how to use this library, refer to the documentation [here](./Documentation/index.md)!
+For info on how to use this library, refer to the documentation [here](https://github.com/VoxelMC/foxlib/blob/master/Documentation/index.md)!
