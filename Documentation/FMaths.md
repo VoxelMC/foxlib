@@ -6,11 +6,11 @@ A general Node.js javascript library for plenty of useful math functions.
 
 - [Usage](#usage)
 - [Functions](#functions)
-  - [Factorial(n)](#factorial-n)
-  - [CheckPrime(n)](#checkprime-n)
-  - [Pascal(n)](#pascal-n)
-  - [nCr(n, r)](#nCr-n-r)
-  - [BinomialTheorem(n, o, a, b, x, y)](#binomialtheorem-n-o-a-b-x-y)
+  - [Factorial(n)](#factorial(n))
+  - [CheckPrime(n)](#checkprime(n))
+  - [Pascal(n)](#pascal(n))
+  - [nCr(n, r)](#nCr(n,-r))
+  - [BinomialTheorem(n, o, a, b, x, y)](#binomialtheorem(n,-o,-a,-b,-x,-y))
 - [Contributors](#contributors)
 
 ## Usage
