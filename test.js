@@ -3,9 +3,13 @@
 const FMaths = require('./FMaths');
 const fm = new FMaths();
 const FLogger = require('./FLogger');
-const fl = new FLogger();
+const fl = new FLogger({
+    writeToText: true,
+    timestamps: true,
+    path: "./Logs"
+});
 
-console.log('Hello world');
+/*console.log('Hello world');
 console.log(fm.Factorial(12)); // test Factorial
 console.log(fm.CheckPrime(7) + " " + fm.CheckPrime(6)); // test Prime Checker
 console.log(fm.Pascal(9));  // test Pascal's Triangle
@@ -30,4 +34,50 @@ console.log(fm.BinomialTheorem(3, "+", 'a', 'b', 2, 0));
 
 fl.Seperator("(a+2b)^4 in 2 ways");
 console.log(fm.BinomialTheorem(4, "+", 'a', 'b', 0, 2));
-console.log(fm.BinomialTheorem(4, "+", 'a', 'b', 1, 2));
+console.log(fm.BinomialTheorem(4, "+", 'a', 'b', 1, 2));*/
+
+// fl.Seperator("Rounder");
+// console.log(fm.Round(10902.3323));
+
+// var botMessage = [ "Beep Boop", "Boop Beep", "Beep Beep Beep", "beeb", "*beep*", ]
+// var random = Math.floor(Math.random[botMessage.length]);
+// var sentMessage = "";
+
+// sentMessage += botMessage[random];
+
+// console.log(sentMessage);
+
+// async function exponentiatetwo() {
+//     var mseconds = 0;
+
+//     var yeet = setInterval(() => {
+//         mseconds++;
+//     }, 1);
+    
+//     var v1 = new Date().getTime();
+
+//     var exp = await (2 ** 2000);
+    
+//     var v2 = new Date().getTime();
+//     var mseconds = v2 - v1;
+//     console.log(exp);
+//     console.log(mseconds + " seconds to process.");
+// }
+
+// exponentiatetwo();
+var v1 = new Date().getTime();
+
+console.log(fm.Radians(90));
+console.log(fm.Degrees(1.5707963267948966));
+
+var v2 = new Date().getTime();
+
+var mseconds = v2 - v1;
+
+console.log(mseconds + " ms to process.");
+var fileName = `${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDate()}-${new Date().getHours()}:${new Date().getMinutes()}-LOG.txt`;
+console.log(fileName);
+
+fl.Write("hello there");
+fl.Write("hello there again");
+

@@ -8,6 +8,42 @@ module.exports = class FMaths {
         this.n = n;
     }
 
+    addZero(x, n) {
+        while (x.toString().length < n) {
+          x = "0" + x;
+        }
+        return x;
+    }
+    Round(n, type) {
+        // types can be undefined for normal, c for ceiling, and f for floor.
+        // slice the integer from the decimals, figure out if decimal is bigger or smaller than 5, then make decimal 0, increasing the integer if decimal is bigger than 5.
+        // or, loop through the number, adding each number to a variable, until it reaches a '.', then break from the loop, then loop again through the decimals.
+        var integer = "";
+        var decimals = "";
+        var numbersArray = Array.from(n.toString()).map(Number);
+        var decimalsArray;
+        var decimalPlace;
+        var output;
+
+        for (let num in numbersArray) {
+            if (Number.isNaN(numbersArray[num])) { 
+                decimalPlace = Number(num) + 1;
+                break;
+            }
+            else {
+                integer += `${numbersArray[num]}`;
+            }
+        }
+
+        for (let num = decimalPlace; num < numbersArray.length; num++) {
+            decimals += `${numbersArray[num]}`;
+        }
+
+        decimalsArray = Array.from(decimals.toString()).map(Number);
+
+        return integer + " " + decimalPlace + " " + decimals;
+    }
+
     /**
      * Evaluates n!
      * 
@@ -31,18 +67,22 @@ module.exports = class FMaths {
      *  Boolean
      */
     CheckPrime(n) { // make a mersenne prime checker, as well.
+        var s = true;
         if (n === 1) {
-            return false;
+            s = true;
         }
         else if (n === 2) {
-            return true;
+            s = false;
         }
         else {
-            for (var i = 2; i < n; i++) {
-                if (n % i !== 0) return true;
-                else return false;
+            for (var i = 2; i <= Math.sqrt(n); i++) {
+                if (n % i == 0) {
+                    s = false;
+                    break; 
+                }
             }
         }
+        return s;
     }
 
     /**
@@ -75,6 +115,7 @@ module.exports = class FMaths {
      *  Creates Pascal's Triangle to the n'th row.
      * @param { number } r 
      *  Finds the number in column r of row n.
+     * 
      * @return { number }
      *  Returns term in column r of row n.
      */
@@ -88,15 +129,21 @@ module.exports = class FMaths {
     }
 
     /**
-     * Form: (a [+|-] b)^x
+     * Form: 
+     * (a [+|-] b)^x
+     * 
      * @param { number } x
-     *  Exponent x 
+     *  Exponent x.
      * @param { string } [o="+"]
      *  Can be '+' or '-'. 
      * @param { number } [a]
-     *  Variable a
+     *  Variable a.
      * @param { number } [b] 
-     *  Variable b
+     *  Variable b.
+     * @param { number } [aconst]
+     *  Constant of a.
+     * @param { number } [bconst]
+     *  Constant of b.
      * 
      * @return { string }
      *  Returns a string of the Expanded Binomial.
@@ -147,41 +194,6 @@ module.exports = class FMaths {
                 }
                 return result;
             }
-            
-            /* THIS IS DEPRECATED, BUT KEEP IT FOR EXAMPLE OF LEARNING.
-            else if (aconst < 0 && bconst === 0) {
-                result += `${(aconst ** aexp) * (bconst ** bexp)}a^${aexp}b^${bexp} ${o} `;
-                for (var i = 0; i <= x - 1; i++) {
-                    let r = i + 1;
-                    let t = this.nCr(x, r);
-    
-                    aexp--; bexp++;
-    
-                    if (i < x - 1) {
-                        result += `${t * (aconst ** aexp)}a^${aexp}b^${bexp} ${o} `;
-                    }
-                    else {
-                        result += `${t * (aconst ** aexp)}a^${aexp}b^${bexp}`;
-                    }
-                }
-            }
-
-            else if (bconst < 0 && aconst === 0) {
-                result += `${(aconst ** aexp) * (bconst ** bexp)}a^${aexp}b^${bexp} ${o} `;
-                for (var i = 0; i <= x - 1; i++) {
-                    let r = i + 1;
-                    let t = this.nCr(x, r);
-    
-                    aexp--; bexp++;
-    
-                    if (i < x - 1) {
-                        result += `${t * (bconst ** bexp)}a^${aexp}b^${bexp} ${o} `;
-                    }
-                    else {
-                        result += `${t * (bconst ** bexp)}a^${aexp}b^${bexp}`;
-                    }
-                }
-            } */
         }
 
         // IF A IS AN INTEGER AND B == B OR UNDEFINED
@@ -223,5 +235,162 @@ module.exports = class FMaths {
             }
             return result;
         }
+    } // End of BinomialTheorem();
+
+    findPrimeInPascal(n) {
+        var ctr = -1;
+        var Prime = new Float64Array(50000);
+        var pascal = fm.Pascal(n);
+    
+        for (var r in pascal) {
+            for (var n in pascal[r]) {
+                if (fm.CheckPrime(pascal[r][n])) {
+                    if (pascal[r][n] != 1) {
+                        try { ctr++;
+                            Prime[ctr] = pascal[r][n];
+                        } catch {
+                            break;
+                        }
+                    }
+                }
+                else continue;
+            }
+        }
+    
+        Prime
+        .filter(elem => elem != 0);
+    
+        var rootedPrime = Prime.filter(function(item, index){
+            return Prime.indexOf(item) >= index;
+        });
+    
+        return rootedPrime.sort().toString();
+    }
+
+    /**
+     * Discriminant:
+     * 
+     * b ** 2 - 4 * a * c
+     * 
+     * @param { number } a 
+     *  First Constant.
+     * @param { number } b 
+     *  Second Constant.
+     * @param { number } c 
+     *  Third Constant.
+     * 
+     * @return { number }
+     *  Returns number of real solutions.
+     */
+    Discriminant(a, b, c) {
+        var discriminant = b ** 2 - 4 * a * c;
+        if (discriminant > 0) {
+            return 2;
+        }
+        else if (discriminant == 0) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
+
+    /**
+     * Quadratic Formula:
+     * 
+     * output[] = (-b +/- sqrt(b**2 - 4*a*c)) / (2*a)
+     * 
+     * @param { number } a 
+     *  First Constant.
+     * @param { number } b
+     *  Second Constant.
+     * @param { number } c
+     *  Third Constant.
+     * 
+     * @return { number[] }
+     *  Returns an array including all real solutions. 
+     */
+    QuadraticForm(a, b, c) {
+        var negb = b - (b * 2);
+        var discriminant = Discriminant(a, b, c);
+        var output = [];
+        var s1, s2;
+
+        if (discriminant == 2) { // 2 real solutions
+            s1 = (negb + Math.sqrt((b ** 2) - (4 * a * c))) / (2 * a);
+            s2 = (negb - Math.sqrt((b ** 2) - (4 * a * c))) / (2 * a);
+            output.push(s1);
+            output.push(s2);
+        }
+        else if (discriminant == 1) { // 1 real solution
+            s1 = negb / (2 * a);
+            output.push(s1);
+        }
+        else if (discriminant == 0) { // no real solutions
+            s1 = "Not Real";
+            output.push(s1);
+        }
+        else throw new Error("Discriminant Failed");
+        
+        return output;
+    }
+
+    /**
+     * Euclid's Algorithm to determing Greatest Common Denominator.
+     * 
+     * Pseudocode Basis:
+     * function gcd(a, b)
+     *  while b ≠ 0
+     *      t := b; 
+     *      b := a mod b; 
+     *      a := t; 
+     *  return a;
+     * 
+     * @param { number } a
+     *  First Number.
+     * @param { number } b 
+     *  Second Number.
+     * 
+     * @return { number }
+     *  Returns the Greatest Common Denominator of a and b.
+     */
+    gcdEuclid(a, b) {
+        var t;
+        // This variable stores the previous iteration
+        while (b !== 0) {
+            t = b;
+            b = a % b;
+            a = t;
+        }
+
+        return a;
+    }
+
+    /**
+     * Converts n degrees to radians.
+     * 
+     * @param { number } n 
+     *  Angle in degrees.
+     * 
+     * @return { number }
+     *  Returns angle in radians.
+     */
+    Radians(n) {
+        var output = Math.PI * n / 180;
+        return output;
+    }
+    
+    /**
+     * Converts n radians to degrees.
+     * 
+     * @param { number } n 
+     *  Angle in radians.
+     * 
+     * @return { number }
+     *  Returns angle in degrees.
+     */
+    Degrees(n) {
+        var output = n / Math.PI * 180;
+        return output;
     }
 }
