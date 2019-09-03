@@ -14,6 +14,7 @@ module.exports = class FMaths {
         }
         return x;
     }
+
     Round(n, type) {
         // types can be undefined for normal, c for ceiling, and f for floor.
         // slice the integer from the decimals, figure out if decimal is bigger or smaller than 5, then make decimal 0, increasing the integer if decimal is bigger than 5.
@@ -78,7 +79,7 @@ module.exports = class FMaths {
             for (var i = 2; i <= Math.sqrt(n); i++) {
                 if (n % i == 0) {
                     s = false;
-                    break; 
+                    break;
                 }
             }
         }

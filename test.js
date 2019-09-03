@@ -6,7 +6,8 @@ const FLogger = require('./FLogger');
 const fl = new FLogger({
     writeToText: true,
     timestamps: true,
-    path: "./Logs"
+    path: "./Logs",
+    logWrite: false
 });
 
 /*console.log('Hello world');
@@ -65,6 +66,8 @@ console.log(fm.BinomialTheorem(4, "+", 'a', 'b', 1, 2));*/
 // }
 
 // exponentiatetwo();
+
+
 var v1 = new Date().getTime();
 
 console.log(fm.Radians(90));
@@ -74,10 +77,19 @@ var v2 = new Date().getTime();
 
 var mseconds = v2 - v1;
 
-console.log(mseconds + " ms to process.");
-var fileName = `${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDate()}-${new Date().getHours()}:${new Date().getMinutes()}-LOG.txt`;
-console.log(fileName);
-
 fl.Write("hello there");
 fl.Write("hello there again");
 
+setTimeout(() => {
+    fl.Write("after 3 seconds");
+}, 3000)
+
+var path = "./yeetus/beegus"
+fl.LogError({ filePath: path })
+fl.Log({}, "test");
+fl.Seperator();
+fl.Log({ property: "Property Name" }, "Property");
+fl.Log({ filePath: "path variable"}, "Again");
+fl.Seperator("test separator");
+
+console.log(mseconds + " ms to process.");
