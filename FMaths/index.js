@@ -7,7 +7,18 @@ module.exports = class FMaths {
     constructor(n) {
         this.n = n;
     }
-
+    
+    /**
+     * Stacks a zero onto x until it is n digits long.
+     * 
+     * @param { number } x 
+     *  Target int.
+     * @param { number } n 
+     *  Target length.
+     * 
+     * @return { number } 
+     *  Returns x with zeroes in front to n length.
+     */
     addZero(x, n) {
         while (x.toString().length < n) {
           x = "0" + x;
