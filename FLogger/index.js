@@ -88,6 +88,7 @@
         else this.Write(str.slice(9));
     }
 
+    /// TO DO NEXT: MOVE TIME STAMPS TO A NEW METHOD SO I DONT HAVE TO REWRITE IT ALL THE TIME.
     Log(type = { property, filePath }, str) {
         var property, filePath, output = this.color + "\u2588\u2588\u2588 ";
 
@@ -122,13 +123,16 @@
         console.log(output);
     }
 
-    LogError(type = { property, filePath }, str) {
+    LogError(type = { property, filePath, bounds }, str) {
         var property, filePath, output = "\x1b[31m\u2588\u2588\u2588 ";
 
         if (typeof type.property === "undefined") property = false;
         else property = type.property;
         if (typeof type.filePath === "undefined") filePath = false;
         else filePath = type.filePath;
+        if (typeof type.bounds === "undefined") bounds = false;
+        else bounds = type.bounds;
+        if (str === 0) { str = "low"; } else if (str === 1) { str = "high"; }
         
         if (this.timestamps) {
             var d = new Date();
@@ -138,18 +142,15 @@
         }
         output += `[ERR] > `;
 
-        if (typeof property === "number") { throw new Error("\x1b[31mProperty: type must be a string\x1b[0m"); }
-        if (typeof filePath === "number") { throw new Error("\x1b[31mProperty: filePath must be a string\x1b[0m"); }
+        if (typeof property === "number") { throw new Error("\x1b[31mProperty: property of LogError(type, str) must be a string\x1b[0m"); }
+        if (typeof filePath === "number") { throw new Error("\x1b[31mProperty: filePath of LogError(type, str) must be a string\x1b[0m"); }
+        if (typeof bounds === "number") { throw new Error("\x1b[31mProperty: bounds of LogError(type, str) must be a string\x1b[0m"); }
 
-        if (typeof property === "string") {
-            output += `Property: ${property} must be ${str}`;
-        }
-        else if (typeof filePath === "string") {
-            output += `File Path: ${filePath} does not exist.`;
-        }
-        else {
-            output += `Error type not specified.`;
-        }
+        if (typeof property === "string") output += `Property: ${property} must be ${str}. `;
+        if (typeof filePath === "string") output += `File Path: ${filePath} does not exist. `;
+        if (typeof bounds === "string") output += `Out of bounds! ${bounds} is too ${str}. `
+        else output += `Error type not specified. `;
+        
 
         this.___internalWrite(output);
         output += `\x1b[0m`;
