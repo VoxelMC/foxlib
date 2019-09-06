@@ -69,10 +69,6 @@
     Write(str) {
         var d = new Date();
         if (this.writeToText) {
-            // if (this.timestamps) str = `[${this.FMaths.addZero(d.getHours(), 2)}:` +
-            // `${this.FMaths.addZero(d.getMinutes(), 2)}:` +
-            // `${this.FMaths.addZero(d.getSeconds(), 2)}]` +
-            // ` ${str}`;
             if (this.timestamps) str = this.Timestamp() + str;
             this.stream.write(`${str}\n`, (err) => {
                 if (err) console.log(err.message);
@@ -91,6 +87,7 @@
             }
         }
     }
+
      /**
       * @private
       * This method is not meant for use, as it may cause you some unexpected problems. Use Write(str) instead.
@@ -116,9 +113,6 @@
         else filePath = type.filePath;
         if (typeof type.bounds === "undefined") bounds = false;
         else bounds = type.bounds;
-        
-        // if (typeof property === "number") { throw new Error("\x1b[31mProperty: type must be a string\x1b[0m"); }
-        // if (typeof filePath === "number") { throw new Error("\x1b[31mProperty: filePath must be a string\x1b[0m"); }
 
         if (this.timestamps) {
             output += this.Timestamp();
@@ -126,11 +120,9 @@
         output += `[LOG] > `;
 
         if (property) {
-            // output += `Property: ${property} is ${str}`;
             this._PropLog(Object.keys(property), output, str);
         }
         else if (filePath) {
-            // output += `File Path: ${filePath}.`;
             this._PathLog(Object.keys(property), output, str);
         }
         else if (bounds) {
@@ -150,7 +142,7 @@
         output += "\u2588\u2588\u2588 ";
 
         if (typeof type.property === "undefined") property = false;
-        else property = type.property;// property = { property };
+        else property = type.property;
         if (typeof type.filePath === "undefined") filePath = false;
         else filePath = type.filePath;
         if (typeof type.bounds === "undefined") bounds = false;
@@ -162,12 +154,10 @@
         }
         output += `[ERR] > `;
 
-        if (typeof property === "string") { 
-            // output += `Property: ${property} must be ${str}. `;
+        if (typeof property === "string") {
             this._PropLog(Object.keys(property), output, str, "err");
         }
         if (typeof filePath === "string") {
-            // output += `File Path: ${filePath} does not exist. `;
             this._PathLog(Object.keys(property), output, str, "err");
         }
         if (typeof bounds === "string") { 

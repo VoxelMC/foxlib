@@ -87,7 +87,6 @@ fl.LogError({ property: {testvar} }, testvar, true);
 // fl.Log({ filePath: "path variable"}, "Again");
 fl.Seperator("test separator");
 
-
 var v2 = new Date().getTime();
 var mseconds = v2 - v1;
 

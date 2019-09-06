@@ -405,4 +405,18 @@ module.exports = class FMaths {
         var output = n / Math.PI * 180;
         return output;
     }
+    
+    HPythagoras(a, b) {
+        var c;
+        var c2 = (a ** 2) + (b ** 2);
+        c = Math.sqrt(c2);
+        return c;
+    }
+    // try to join these.
+    SPythagoras(b, c) {
+        var a;
+        var a2 = (b ** 2) - (c ** 2);
+        a = Math.sqrt(a2);
+        return a;
+    }
 }
