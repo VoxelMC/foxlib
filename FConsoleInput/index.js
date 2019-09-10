@@ -17,40 +17,40 @@ module.exports = class FConsoleInput {
         });
     }
 
-    ReadConsole(si) {
-        si.setEncoding('utf-8');
+    // ReadConsole(si) {
+    //     si.setEncoding('utf-8');
 
-        var test;
+    //     var test;
 
-        test = si.read()
-        this.Data(test, this.commands);
-    }
+    //     test = si.read()
+    //     this.Data(test, this.commands);
+    // }
 
-    TestData() {
-    }
+    // TestData() {
+    // }
 
-    NewCommand(name, callback) {
-        this.commands[name] = callback;
-        console.log(this.commands);
-    }
+    // NewCommand(name, callback) {
+    //     this.commands[name] = callback;
+    //     console.log(this.commands);
+    // }
 
-    Data(data, cmds) {
-        var send = data.slice(0, -2).split(" "); 
-        var command = send[0];
+    // Data(data, cmds) {
+    //     var send = data.slice(0, -2).split(" "); 
+    //     var command = send[0];
 
-        console.log(send);
-        console.log(command);
+    //     console.log(send);
+    //     console.log(command);
         
-        console.log(cmds);
+    //     console.log(cmds);
 
-        if (cmds.keys().includes(command)) {
-            console.log("this is a test message");
-            var Pass = cmds[command];
-            Pass()
-        }
+    //     if (cmds.keys().includes(command)) {
+    //         console.log("this is a test message");
+    //         var Pass = cmds[command];
+    //         Pass()
+    //     }
 
-        console.log(cmds);
-    }
+    //     console.log(cmds);
+    // }
 }
 
 
