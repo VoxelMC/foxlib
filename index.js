@@ -2,5 +2,6 @@
 
 module.exports = {
     FMaths : require('./FMaths'),
-    FLogger : require('./FLogger')
+    FLogger : require('./FLogger'),
+    FConsoleInput : require('./FConsoleInput')
 }

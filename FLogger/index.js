@@ -67,7 +67,6 @@
     }
     
     Write(str) {
-        var d = new Date();
         if (this.writeToText) {
             if (this.timestamps) str = this.Timestamp() + str;
             this.stream.write(`${str}\n`, (err) => {

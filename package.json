@@ -12,5 +12,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/VoxelMC/foxlib/"
+  },
+  "dependencies": {
+    "jshint": "^2.10.2"
   }
 }
