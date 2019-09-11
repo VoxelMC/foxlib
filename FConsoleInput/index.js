@@ -1,20 +1,21 @@
 module.exports = class FConsoleInput {
-    constructor(options = { commands }) {
-        var standard_input = process.stdin;
+    constructor(options = { 
+        commands: { }, 
+        exit: { command, function: { } },
+        logging: { enabled, writeToText, timestamps, path, color, logWrite, warnings },
+    }) {
+        this.options = options;
+        this.logOptions = options.logging;
+        if (this.logOptions.enabled === undefined)  this.logOptions.enabled = false;
+    }
+    
+    ReadCommand(amt) {
 
-        standard_input.setEncoding('utf-8');
+    }
 
-        standard_input.on("data", data => {
-            var send = data.slice(0, -2).split(" "); 
-            var command = send[0];
-
-            console.log("It is: " + command);
-
-            if (Object.keys(options.commands).includes(command)) {
-                var Pass = options.commands[command];
-                Pass();
-            }
-        });
+    startRead() {
+        var FConsoleRead = require('./FConsoleRead.js');
+        return new FConsoleRead(this.options,);
     }
 
     // ReadConsole(si) {

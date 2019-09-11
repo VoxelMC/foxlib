@@ -10,6 +10,11 @@ const fl = new FLogger({
     logWrite: false,
     warnings: false,
 });
+
+function Function(param) {
+    console.log("heeel yea");
+    console.log(param);
+}
 const FConsoleInput = require('./FConsoleInput');
 const fci = new FConsoleInput({
     commands: {
@@ -20,15 +25,47 @@ const fci = new FConsoleInput({
             var testv = [];
             testv.push("first");
             console.log(testv);
+        },
+        testcmd: (arg1, arg2) => {
+            console.log(arg1);
+            console.log(arg2 + " ARGS");
+        },
+        function: (param) => {
+            Function(param);
+        },
+        add: (n1, n2) => {
+            console.log(Add(n1, n2));
         }
+    },
+    exit: { 
+        command: "exitcommands",
+        function: (param) => {
+            console.log(param);
+        }
+    },
+    logging: {
+        enabled: true,
+        writeToText: true,
+        timestamps: true,
+        path: "./Logs",
+        logWrite: false,
+        warnings: false,
     }
 });
+
+
+fci.startRead();
+
+function Add(n1, n2) {
+    return Number(n1) + Number(n2);
+}
+
+console.log(Add(5, 10));
+
 
 // fci.NewCommand("testCommand", () => {
 //     console.log("this is in the callback function");
 // });
-
-fci.TestData();
 
 /*console.log('Hello world');
 console.log(fm.Factorial(12)); // test Factorial
@@ -88,25 +125,25 @@ console.log(fm.BinomialTheorem(4, "+", 'a', 'b', 1, 2));*/
 // exponentiatetwo();
 
 //////////////////////////
-// var v1 = new Date().getTime();
+var v1 = new Date().getTime();
 
-// fl.Write("hello there");
-// fl.Write("hello there again");
+fl.Write("hello there");
+fl.Write("hello there again");
 
-// // setTimeout(() => {
-// //     fl.Write("after 3 seconds");
-// // }, 3000)
+// setTimeout(() => {
+//     fl.Write("after 3 seconds");
+// }, 3000)
 
-// // fl.LogError({ filePath: path })
-// // fl.Log({}, "test");
-// fl.Seperator();
-// var testvar = "abcdefg";
-// fl.Log({ property: {testvar} }, testvar, true);
-// fl.LogError({ property: {testvar} }, testvar, true);
-// // fl.Log({ filePath: "path variable"}, "Again");
-// fl.Seperator("test separator");
+// fl.LogError({ filePath: path })
+// fl.Log({}, "test");
+fl.Seperator();
+var testvar = "abcdefg";
+fl.Log({ property: {testvar} }, testvar, true);
+fl.LogError({ property: {testvar} }, testvar, true);
+// fl.Log({ filePath: "path variable"}, "Again");
+fl.Seperator("test separator");
 
-// var v2 = new Date().getTime();
-// var mseconds = v2 - v1;
+var v2 = new Date().getTime();
+var mseconds = v2 - v1;
 
-// console.log(mseconds + " ms to process.");
+console.log(mseconds + " ms to process.");

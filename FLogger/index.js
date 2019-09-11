@@ -15,7 +15,7 @@
          * */
         const fs = require('fs');
         const FMaths = require('../FMaths');
-        this.FMaths = new FMaths();
+        const fm = new FMaths();
 
         // Defaults
         if (typeof options.writeToText !== "boolean") throw new Error("Property: writeToText must be present and a boolean.");
@@ -42,10 +42,10 @@
         
         // If writeToText is true, create an empty .txt file.
         if (this.writeToText) {
-            this.d = new Date();
-            this.fileName = `${this.path}${this.FMaths.addZero(this.d.getFullYear(), 2)}-` +
-            `${this.FMaths.addZero(this.d.getMonth(), 2)}-${this.FMaths.addZero(this.d.getDate(), 2)}_` +
-            `${this.FMaths.addZero(this.d.getHours(), 2)}.${this.FMaths.addZero(this.d.getMinutes(), 2)}-` +
+            const d = new Date();
+            this.fileName = `${this.path}${fm.addZero(d.getFullYear(), 2)}-` +
+            `${fm.addZero(d.getMonth(), 2)}-${fm.addZero(d.getDate(), 2)}_` +
+            `${fm.addZero(d.getHours(), 2)}.${fm.addZero(d.getMinutes(), 2)}-` +
             `LOG.txt`;
       
             // Write data in 'Output.txt' . 
@@ -60,9 +60,11 @@
     }
 
     Timestamp(time = new Date()) {
-        var output = `[${this.FMaths.addZero(time.getHours(), 2)}:` +
-        `${this.FMaths.addZero(time.getMinutes(), 2)}:` +
-        `${this.FMaths.addZero(time.getSeconds(), 2)}] `;
+        const FMaths = require('../FMaths');
+        const fm = new FMaths();
+        var output = `[${fm.addZero(time.getHours(), 2)}:` +
+        `${fm.addZero(time.getMinutes(), 2)}:` +
+        `${fm.addZero(time.getSeconds(), 2)}] `;
         return output;
     }
     
@@ -171,12 +173,7 @@
     Seperator(str) {
         var output = "\x1b[96m\u2588\u2588\u2588 ";
         if (!str) str = "SEPERATOR";
-        if (this.timestamps) {
-            var d = new Date();
-            output += `[${this.FMaths.addZero(d.getHours(), 2)}:` +
-            `${this.FMaths.addZero(d.getMinutes(), 2)}:` +
-            `${this.FMaths.addZero(d.getSeconds(), 2)}] `;
-        }
+        output += this.Timestamp()
         output += `[SEP] \u2588 ###### ${str.toUpperCase()} ###### \u2588`;
         this.___internalWrite(output);
     }
