@@ -1,7 +1,7 @@
 'use strict'
 
 module.exports = {
-    FMaths : require('./FMaths'),
-    FLogger : require('./FLogger'),
-    FConsoleInput : require('./FConsoleInput')
+    FMaths : require('./src/FMaths'),
+    FLogger : require('./src/FLogger'),
+    FConsoleInput : require('./src/FConsoleInput')
 }

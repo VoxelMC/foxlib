@@ -6,7 +6,7 @@ const FLogger = require('./FLogger');
 const fl = new FLogger({
     writeToText: false,
     timestamps: true,
-    path: "./Logs",
+    path: "./src/Logs",
     logWrite: false,
     warnings: false,
 });
