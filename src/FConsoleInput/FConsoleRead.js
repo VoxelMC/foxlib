@@ -10,30 +10,77 @@ module.exports = class FConsoleRead {
             let command = send.shift();
             let readArr = Array.from(send);
             let argsArr = [];
-            let reservedCommands = [
-                "-exit", "-e", "-report", "-help"
+            let l, reservedCommands = [
+                "-exit", "-exitread", "-report", "-help", "-usage"
             ];
+            let reservedAliases = [
+                "-e", "-er", "-r", "-h", "-u"
+            ];
+            let commandInfo = [
+                [
+                    "Exits the Node process.", "Exits the FConsoleRead process.", "Displays # of commands used", 
+                    "Displays a help menu containing all reserved and custom commands. Optional argument for info on a specific command.",
+                    "Displays the usage of datatype flags."
+                ],
+                [
+                    "-exit, -e", "-exitread, -er", "-report, -r", "-help [command], -h [command]", "-usage [type], -u [type]"
+                ]
+            ]
+            let cmdCheck = false;
 
+            reservedAliases.push(options.exit.command); l = reservedAliases.length - 1;
+
+            if (!reservedCommands.includes(command) && !reservedAliases.includes(command)) cmdCheck = true;
+
+            if (Object.keys(options.commands).includes(command) && !cmdCheck) {
+                console.log(`\u001b[33;1mFConsoleRead > ${command} is a reserved command name! Please change this command name.\u001b[0m`);
+            }
+            
             switch (command) {
-                case "-e"  :  case "-exit" :  
-                    console.log("\nExiting...");
+                case reservedCommands[0]  :  case reservedAliases[0]  :  
+                    console.log("\x1b[1m\x1b[31m\nExiting...");
                     process.exit();
                     commandsInput++;
                     break;
-                case options.exit.command  :  stdin.destroy(); break;
-                case "-report"  :  
-                    console.log(`Commands input: ${commandsInput}`);
+                case reservedCommands[1]  :  case reservedAliases[l]  :
+                    stdin.destroy(); 
+                    break;
+                case reservedCommands[2]  :  case reservedAliases[2]  :
+                    console.log(`\u001b[35;1mFConsoleRead > # of commands input: \u001b[33;1m${commandsInput}\u001b[0m`);
                     commandsInput++;
                     break;
-                case "-help"  :  
-                    console.log(`Reserved Commands: ${reservedCommands}`);
-                    console.log(`Commands: ${options.commands}`);
+                case reservedCommands[3]  :  case reservedAliases[3]  :
+                    if (Object.keys(options.commands).includes(readArr[0])) {
+                        let f = options.commands[readArr[0]].length;
+                        console.log(`\u001b[35;1mFConsoleRead >\n` + 
+                        `Command Name: ${readArr[0]}\n` +
+                        `\u001b[35;1m => \u001b[36;1m# of expected parameters: \u001b[33;1m${f}\u001b[0m`);
+                    }
+                    else if (reservedAliases.includes(readArr[0])) {
+                        let info =
+                    }
+                    else if (reservedCommands.includes(readArr[0])) {
+                        switch (readArr[0]) {
+
+                        }
+                    }
+                    else {
+                        console.log(`\u001b[35;1mFConsoleRead >\n` + 
+                        `\u001b[35;1m => \u001b[36;1mReserved Commands: \u001b[33;1m${reservedCommands.join(", ")}\n` +
+                        `\u001b[35;1m => \u001b[36;1mReserved Command Aliases: \u001b[33;1m${reservedAliases.join(", ")}\n` +
+                        `\u001b[35;1m => \u001b[36;1mCommands: \u001b[33;1m${Object.keys(options.commands).join(", ")}\u001b[0m`);
+                    }
+                    commandsInput++;
+                    break;
+                case reservedCommands[4]  :  case reservedAliases[4]  :
+                    console.log(`\u001b[35;1mFConsoleRead >\n`);
                     break;
             }
             
-            if (reservedCommands.includes(command)) return console.log("This is a reserved keyword!");
-
-            if (Object.keys(options.commands).includes(command) && !reservedCommands.includes(command)) {
+            if (!Object.keys(options.commands).includes(command) && cmdCheck) {
+                    return console.log("FConsoleRead > Command not recognized!");
+            }
+            else if (Object.keys(options.commands).includes(command) && cmdCheck) {
                 console.log("Command is: " + command); // Remove after complete.
                 let Pass = options.commands[command];
                 let end;
