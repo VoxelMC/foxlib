@@ -26,7 +26,7 @@ module.exports = class FMaths {
         return x;
     }
 
-    Round(n, type) {
+    round(n, type) {
         // types can be undefined for normal, c for ceiling, and f for floor.
         // slice the integer from the decimals, figure out if decimal is bigger or smaller than 5, then make decimal 0, increasing the integer if decimal is bigger than 5.
         // or, loop through the number, adding each number to a variable, until it reaches a '.', then break from the loop, then loop again through the decimals.
@@ -65,7 +65,7 @@ module.exports = class FMaths {
      * @return { number }
      *  Returns n factorial.
      */
-    Factorial(n) {
+    factorial(n) {
         return n ? n * this.Factorial(n - 1) : 1;
     }
 
@@ -78,7 +78,7 @@ module.exports = class FMaths {
      * @return { boolean } 
      *  Boolean
      */
-    CheckPrime(n) { // make a mersenne prime checker, as well.
+    checkPrime(n) { // make a mersenne prime checker, as well.
         var s = true;
         if (n === 1) {
             s = true;
@@ -106,7 +106,7 @@ module.exports = class FMaths {
      * @return 
      *  A nested array with rows of Pascal's Triangle up to the n'th row.
      */
-    Pascal(n) {
+    pascal(n) {
         let result = [];
         result[0] = [1];
         result[1] = [1, 1];
@@ -134,7 +134,7 @@ module.exports = class FMaths {
     nCr(n, r) {
         let output;
         if (r <= n) {
-            output = this.Pascal(n);
+            output = this.pascal(n);
             return output[n][r];
         }
         else return "'r' cannot be an integer higher than 'n'.";
@@ -162,7 +162,7 @@ module.exports = class FMaths {
      */
     // May have to attempt to overhaul the system with a different equation to allow for (xa + yb)^n
     // Start with overhauling the parameters, so that they are properties.
-    BinomialTheorem(x, o, a, b, aconst, bconst) {
+    binomialTheorem(x, o, a, b, aconst, bconst) {
         var aexp = x;
         var bexp = 0;
         var result = "";
@@ -294,7 +294,7 @@ module.exports = class FMaths {
      * @return { number }
      *  Returns number of real solutions.
      */
-    Discriminant(a, b, c) {
+    discriminant(a, b, c) {
         var discriminant = b ** 2 - 4 * a * c;
         if (discriminant > 0) {
             return 2;
@@ -322,7 +322,7 @@ module.exports = class FMaths {
      * @return { number[] }
      *  Returns an array including all real solutions. 
      */
-    QuadraticForm(a, b, c) {
+    quadraticForm(a, b, c) {
         var negb = b - (b * 2);
         var discriminant = Discriminant(a, b, c);
         var output = [];
@@ -387,7 +387,7 @@ module.exports = class FMaths {
      * @return { number }
      *  Returns angle in radians.
      */
-    Radians(n) {
+    radians(n) {
         var output = Math.PI * n / 180;
         return output;
     }
@@ -401,19 +401,19 @@ module.exports = class FMaths {
      * @return { number }
      *  Returns angle in degrees.
      */
-    Degrees(n) {
+    degrees(n) {
         var output = n / Math.PI * 180;
         return output;
     }
     
-    HPythagoras(a, b) {
+    hPythagoras(a, b) {
         var c;
         var c2 = (a ** 2) + (b ** 2);
         c = Math.sqrt(c2);
         return c;
     }
     // try to join these.
-    SPythagoras(b, c) {
+    sPythagoras(b, c) {
         var a;
         var a2 = (b ** 2) - (c ** 2);
         a = Math.sqrt(a2);

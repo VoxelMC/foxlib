@@ -35,6 +35,17 @@ const fci = new FConsoleInput({
         },
         add: (n1, n2) => {
             console.log(Add(n1, n2));
+        },
+        data: (type, n1, n2) => {
+            var output;
+            if (type === "change") {
+                output = n2 - n1;
+            }
+            else if (type === "percent") {
+                output = (n2 - n1) / n1 * 100;
+            }
+            
+            console.log(output);
         }
     },
     exit: { 
@@ -43,14 +54,6 @@ const fci = new FConsoleInput({
             console.log(param);
         }
     },
-    logging: {
-        enabled: true,
-        writeToText: true,
-        timestamps: true,
-        path: "./Logs",
-        logWrite: false,
-        warnings: false,
-    }
 });
 
 
@@ -127,8 +130,8 @@ console.log(fm.BinomialTheorem(4, "+", 'a', 'b', 1, 2));*/
 //////////////////////////
 var v1 = new Date().getTime();
 
-fl.Write("hello there");
-fl.Write("hello there again");
+fl.write("hello there");
+fl.write("hello there again");
 
 // setTimeout(() => {
 //     fl.Write("after 3 seconds");
@@ -136,12 +139,12 @@ fl.Write("hello there again");
 
 // fl.LogError({ filePath: path })
 // fl.Log({}, "test");
-fl.Seperator();
+fl.seperator();
 var testvar = "abcdefg";
-fl.Log({ property: {testvar} }, testvar, true);
-fl.LogError({ property: {testvar} }, testvar, true);
+fl.log({ property: {testvar} }, testvar, true);
+fl.logError({ property: {testvar} }, testvar, true);
 // fl.Log({ filePath: "path variable"}, "Again");
-fl.Seperator("test separator");
+fl.seperator("test separator");
 
 var v2 = new Date().getTime();
 var mseconds = v2 - v1;

@@ -1,45 +1,53 @@
 module.exports = class FConsoleRead {
     constructor(options) {
-        var stdin = process.stdin;
-        var commandsInput = 0;
+        let stdin = process.stdin;
+        let commandsInput = 0;
 
         stdin.setEncoding('utf-8');
         
         stdin.on("data", data => {
-            var send = data.slice(0, -2).split(" "); 
-            var command = send.shift();
-            var readArr = Array.from(send);
-            var argsArr = [];
-            var reservedCommands = [
-                "exitprocess", "report"
+            let send = data.slice(0, -2).split(" "); 
+            let command = send.shift();
+            let readArr = Array.from(send);
+            let argsArr = [];
+            let reservedCommands = [
+                "-exit", "-e", "-report", "-help"
             ];
 
             switch (command) {
-                case "exitp"  :  console.log("\nExiting..."); 
-                    process.exit(); 
-                    commandsInput++; 
+                case "-e"  :  case "-exit" :  
+                    console.log("\nExiting...");
+                    process.exit();
+                    commandsInput++;
                     break;
                 case options.exit.command  :  stdin.destroy(); break;
-                case "report"  :  console.log(`Commands input: ${commandsInput}`); commandsInput++; break;
+                case "-report"  :  
+                    console.log(`Commands input: ${commandsInput}`);
+                    commandsInput++;
+                    break;
+                case "-help"  :  
+                    console.log(`Reserved Commands: ${reservedCommands}`);
+                    console.log(`Commands: ${options.commands}`);
+                    break;
             }
+            
+            if (reservedCommands.includes(command)) return console.log("This is a reserved keyword!");
 
             if (Object.keys(options.commands).includes(command) && !reservedCommands.includes(command)) {
                 console.log("Command is: " + command); // Remove after complete.
-                var Pass = options.commands[command];
-                var begin, end;
-                if (reservedCommands.includes(command)) return console.log("This is a reserved keyword!");
+                let Pass = options.commands[command];
+                let end;
+
                 commandsInput++;
-                for (var i in readArr) {
+
+                for (let i in readArr) {
                     if (readArr[i] === "-string") {
                         let sendArr = [];
-                        begin = Number(i) + 1;
-                        end = Number(readArr.indexOf("-s", begin));
+                        let strBegin = parseInt(i) + 1;
+                        end = parseInt(readArr.indexOf("-s", strBegin));
 
-                        if (ind !== 0) readArr.splice(ind - 1, ind + 1);
-                        else readArr.splice(0, 1);
-
-                        for (begin; begin < end; begin++) {
-                            if (readArr[begin] !== "-s") sendArr.push(readArr[begin]);
+                        for (strBegin; strBegin < end; strBegin++) {
+                            if (readArr[strBegin] !== "-s") sendArr.push(readArr[strBegin]);
                             else break;
                         }
 
@@ -47,32 +55,35 @@ module.exports = class FConsoleRead {
                     }
                     else if (readArr[i] === "-num") {
                         let sendArr = [];
-                        begin = Number(i) + 1;
-                        end = Number(readArr.indexOf("-n", begin));
+                        let numBegin = parseInt(i) + 1;
+                        end = parseInt(readArr.indexOf("-n", numBegin));
 
-                        if (ind !== 0) readArr.splice(ind - 1, ind + 1);
-                        else readArr.splice(0, 1);
-
-                        for (begin; begin < end; begin++) {
-                            if (readArr[begin] !== "-n") {
-                                let pushed = readArr[begin];
-                                sendArr.push(Number(pushed));
+                        for (numBegin; numBegin < end; numBegin++) {
+                            if (readArr[numBegin] !== "-n") {
+                                let pushed = readArr[numBegin];
+                                sendArr.push(pushed);
                             }
                             else break;
                         }
+                        argsArr.push(parseInt(eval(sendArr.join(''))));
+                    }
+                    else if (readArr[i] === "-array") {
+                        let sendArr = [];
+                        let arrBegin = parseInt(i) + 1;
+                        end = parseInt(readArr.indexOf("-a", arrBegin));
 
+                        for (arrBegin; arrBegin < end; arrBegin++) {
+                            if (readArr[arrBegin] !== "-a") {
+                                sendArr.push(readArr[arrBegin]);
+                            }
+                            else break;
+                        }
                         argsArr.push(sendArr);
                     }
                     else {
                         if (i <= end) continue;
                         else argsArr.push(readArr[i]);
                     }
-                }
-
-                if (readArr.includes("-string")) {
-                    var ind = readArr.indexOf("-string")
-                    if (ind !== 0) readArr.splice(ind - 1, ind + 1);
-                    else readArr.splice(0, 1);
                 }
                 Pass.apply(this, argsArr);
             }
@@ -81,9 +92,9 @@ module.exports = class FConsoleRead {
         stdin.on('close', c => {
             console.log(c);
             console.log(options.exitFunction);
-            var exitFunc = options.exit.function;
+            let exitFunc = options.exit.function;
             console.log('after' + "");
-            var param = "New String!!!";
+            let param = "New String!!!";
             exitFunc(param);
         })
     }

@@ -8,7 +8,7 @@
         /**
          * Options:
          * Write to a .txt file.
-         * Timestamps.
+         * timestamps.
          * Folder Path for log files.
          * Log message color
          * Option to log Write();
@@ -59,7 +59,7 @@
         }
     }
 
-    Timestamp(time = new Date()) {
+    timestamp(time = new Date()) {
         const FMaths = require('../FMaths');
         const fm = new FMaths();
         var output = `[${fm.addZero(time.getHours(), 2)}:` +
@@ -68,9 +68,9 @@
         return output;
     }
     
-    Write(str) {
+    write(str) {
         if (this.writeToText) {
-            if (this.timestamps) str = this.Timestamp() + str;
+            if (this.timestamps) str = this.timestamp() + str;
             this.stream.write(`${str}\n`, (err) => {
                 if (err) console.log(err.message);
                 else {
@@ -81,7 +81,7 @@
         else {
             if (this.warnings) {
                 if (this.timestamps) {
-                    console.log(`\x1b[93m\u2588\u2588\u2588 ${this.Timestamp()}[WRN] > ` +
+                    console.log(`\x1b[93m\u2588\u2588\u2588 ${this.timestamp()}[WRN] > ` +
                     `Property: writeToText must be set to true.\x1b[0m`);
                 }
                 else console.log(`\x1b[93m\u2588\u2588\u2588 [WRN] > Property: writeToText must be set to true. Cannot write to ${this.fileName}.\x1b[0m`);
@@ -94,13 +94,13 @@
       * This method is not meant for use, as it may cause you some unexpected problems. Use Write(str) instead.
       */
     ___internalWrite(str) {
-        if (this.timestamps) this.Write(str.slice(20));
-        else this.Write(str.slice(9));
+        if (this.timestamps) this.write(str.slice(20));
+        else this.write(str.slice(9));
         str += `\x1b[0m`;
         console.log(str);
     }
 
-    Log(type = { property, filePath, bounds }, str, highlight) {
+    log(type = { property, filePath, bounds }, str, highlight) {
         var property, filePath, bounds; 
         var output = ""; 
 
@@ -116,25 +116,25 @@
         else bounds = type.bounds;
 
         if (this.timestamps) {
-            output += this.Timestamp();
+            output += this.timestamp();
         }
         output += `[LOG] > `;
 
         if (property) {
-            this._PropLog(Object.keys(property), output, str);
+            this._propLog(Object.keys(property), output, str);
         }
         else if (filePath) {
-            this._PathLog(Object.keys(property), output, str);
+            this._pathLog(Object.keys(property), output, str);
         }
         else if (bounds) {
-            this._BoundsLog(Object.keys(property), output, str);
+            this._boundsLog(Object.keys(property), output, str);
         }
         else {
-            this._UndefinedLog(output);
+            this._undefinedLog(output);
         }
     }
     
-    LogError(type = { property: {}, filePath, bounds }, str, highlight) {
+    logError(type = { property: {}, filePath, bounds }, str, highlight) {
         var property, filePath, bounds; 
         var output = ""; 
 
@@ -151,18 +151,18 @@
         if (str === 0) { str = "low"; } else if (str === 1) { str = "high"; }
         
         if (this.timestamps) {
-            output += this.Timestamp();
+            output += this.timestamp();
         }
         output += `[ERR] > `;
 
         if (typeof property === "string") {
-            this._PropLog(Object.keys(property), output, str, "err");
+            this._propLog(Object.keys(property), output, str, "err");
         }
         if (typeof filePath === "string") {
-            this._PathLog(Object.keys(property), output, str, "err");
+            this._pathLog(Object.keys(property), output, str, "err");
         }
         if (typeof bounds === "string") { 
-            this._BoundsLog(Object.keys(property), output, str, "err");
+            this._boundsLog(Object.keys(property), output, str, "err");
         }
         else { 
             output += `Error type not specified.`;
@@ -170,18 +170,18 @@
         }
     }
     
-    Seperator(str) {
+    seperator(str) {
         var output = "\x1b[96m\u2588\u2588\u2588 ";
         if (!str) str = "SEPERATOR";
-        output += this.Timestamp()
+        output += this.timestamp()
         output += `[SEP] \u2588 ###### ${str.toUpperCase()} ###### \u2588`;
         this.___internalWrite(output);
     }
 
     // ##### LOGTYPES ##### \\
 
-    _PropLog(tobj, input, str, type) {
-        // if (typeof type === "number") { throw new Error("\x1b[31mProperty: property of LogError(type, str) must be a string.\x1b[0m"); } PROBABLY DONT NEED THIS
+    _propLog(tobj, input, str, type) {
+        // if (typeof type === "number") { throw new Error("\x1b[31mProperty: property of logError(type, str) must be a string.\x1b[0m"); } PROBABLY DONT NEED THIS
 
         if (typeof type === "undefined") {
             input += `Property: ${tobj} is "${str}": (${typeof str}).`;
@@ -196,15 +196,15 @@
             input += `Property: ${tobj} should be ${str}, but the error has been handled. (${typeof str}).`;
         }
         else {
-            throw new Error(`\x1b[31mProperty: type of _PropLog(tobj, input, str, type) must be undefined, "change", "err", or "warn".\x1b[0m`);
+            throw new Error(`\x1b[31mProperty: type of _propLog(tobj, input, str, type) must be undefined, "change", "err", or "warn".\x1b[0m`);
         }
         var output = input;
 
         this.___internalWrite(output);
     }
 
-    _PathLog(tobj, input, str, type) {
-        // if (typeof type === "number") { throw new Error("\x1b[31mProperty: filePath of LogError(type, str) must be a string or variable.\x1b[0m"); } AGAIN PROB DONT NEED.
+    _pathLog(tobj, input, str, type) {
+        // if (typeof type === "number") { throw new Error("\x1b[31mProperty: filePath of logError(type, str) must be a string or variable.\x1b[0m"); } AGAIN PROB DONT NEED.
 
         if (typeof type === "undefined") {
             input += `File Path: ${tobj} is ${str}. (${typeof str}).`;
@@ -219,15 +219,15 @@
             input += `File Path: ${tobj} (${str}) does not exist, but the error has been handled. (${typeof str}).`;
         }
         else {
-            throw new Error(`\x1b[31mProperty: type of _PathLog(tobj, input, str, type) must be undefined, "change", "err", or "warn".\x1b[0m`);
+            throw new Error(`\x1b[31mProperty: type of _pathLog(tobj, input, str, type) must be undefined, "change", "err", or "warn".\x1b[0m`);
         }
         var output = input;
 
         this.___internalWrite(output);
     }
 
-    _BoundsLog(tobj, input, str, type) {
-        // if (typeof type === "number") { throw new Error("\x1b[31mProperty: bounds of LogError(type, str) must be a string.\x1b[0m"); }
+    _boundsLog(tobj, input, str, type) {
+        // if (typeof type === "number") { throw new Error("\x1b[31mProperty: bounds of logError(type, str) must be a string.\x1b[0m"); }
 
         if (typeof type === "undefined") {
             // SUCCESS
@@ -249,7 +249,7 @@
         this.___internalWrite(output);
     }
 
-    _UndefinedLog(str, input, type) {
+    _undefinedLog(str, input, type) {
         if (typeof type === "undefined") {
             // SUCCESS
         }
