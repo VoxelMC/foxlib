@@ -148,7 +148,7 @@
         else filePath = type.filePath;
         if (typeof type.bounds === "undefined") bounds = false;
         else bounds = type.bounds;
-        if (str === 0) { str = "low"; } else if (str === 1) { str = "high"; }
+        if (str === false) { str = "low"; } else if (str === true) { str = "high"; }
         
         if (this.timestamps) {
             output += this.timestamp();
@@ -230,19 +230,19 @@
         // if (typeof type === "number") { throw new Error("\x1b[31mProperty: bounds of logError(type, str) must be a string.\x1b[0m"); }
 
         if (typeof type === "undefined") {
-            // SUCCESS
+            input += `Bounds: ${tobj} is within ${str}.`;
         }
         else if (type === "change") {
-            // CHANGED
+            input += `Bounds: ${tobj} has been changed to ${str}.`;
         }
         else if (type === "err") {
-            // ERROR
+            input += `Bounds: ${tobj} is too ${str}.`;
         }
         else if (type === "warn") {
-            // WARNING
+            input += `Bounds: ${tobj} is too ${str}.`;
         }
         else {
-            // CATCH ANY INVALID ARGUMENT
+            throw new Error(`\x1b[31mProperty: type of _boundsLog(tobj, input, str, type) must be undefined, "change", "err", or "warn".\x1b[0m`);
         }
         var output = input;
 
@@ -251,19 +251,19 @@
 
     _undefinedLog(str, input, type) {
         if (typeof type === "undefined") {
-            // SUCCESS
+            input += `UndefinedLog: ${str}`;
         }
         else if (type === "change") {
-            // CHANGED
+            input += `UndefinedLog: (CHANGED) ${str}`;
         }
         else if (type === "err") {
-            // ERROR
+            input += `UndefinedLog: (ERROR) ${str}`;
         }
         else if (type === "warn") {
-            // WARNING
+            input += `UndefinedLog: (WARNING) ${str}`;
         }
         else {
-            // CATCH ANY INVALID ARGUMENT
+            throw new Error(`\x1b[31mProperty: type of _undefinedLog(input, str, type) must be undefined, "change", "err", or "warn".\x1b[0m`);
         }
         var output = input;
 
