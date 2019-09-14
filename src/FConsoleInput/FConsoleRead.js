@@ -54,7 +54,7 @@ module.exports = class FConsoleRead {
                         `Command Name: ${readArr[0]}\n` +
                         `\u001b[35;1m => \u001b[36;1m# of expected parameters: \u001b[33;1m${f}\u001b[0m`);
                     }
-                    else if (reservedCommands.includes(readArr[0]) || reservedAliases(readArr[0])) {
+                    else if (reservedCommands.includes(readArr[0]) || reservedAliases.includes(readArr[0])) {
                         
                     }
                     else {
