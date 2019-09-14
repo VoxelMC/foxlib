@@ -18,9 +18,6 @@ function Function(param) {
 const FConsoleInput = require('./src/FConsoleInput');
 const fci = new FConsoleInput({
     commands: {
-        command: () => {
-            console.log("yeet yeet");
-        },
         help: () => {
             var testv = [];
             testv.push("first");
@@ -50,7 +47,7 @@ const fci = new FConsoleInput({
     },
     exit: { 
         command: "exitcommands",
-        function: (param) => {
+        exitFunction: (param) => {
             console.log(param);
         }
     },

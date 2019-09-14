@@ -1,11 +1,12 @@
 module.exports = class FConsoleInput {
     /**
      * 
-     * @param { { commands: { string: Function } } } options 
+     * @param { { commands: { command: Function }, exit: { command: string, exitFunction: Function } } } options 
+     *  
      */
     constructor(options = { 
         commands: { }, 
-        exit: { command, function: { } },
+        exit: { command, exitFunction: { } },
     }) {
         this.options = options;
     }

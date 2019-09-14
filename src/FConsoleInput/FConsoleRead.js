@@ -21,8 +21,7 @@ module.exports = class FConsoleRead {
                     "Exits the Node process.", "Exits the FConsoleRead process.", "Displays # of commands used", 
                     "Displays a help menu containing all reserved and custom commands. Optional argument for info on a specific command.",
                     "Displays the usage of datatype flags."
-                ],
-                [
+                ], [
                     "-exit, -e", "-exitread, -er", "-report, -r", "-help [command], -h [command]", "-usage [type], -u [type]"
                 ]
             ]
@@ -38,7 +37,6 @@ module.exports = class FConsoleRead {
             
             switch (command) {
                 case reservedCommands[0]  :  case reservedAliases[0]  :  
-                    console.log("\x1b[1m\x1b[31m\nExiting...");
                     process.exit();
                     commandsInput++;
                     break;
@@ -56,13 +54,8 @@ module.exports = class FConsoleRead {
                         `Command Name: ${readArr[0]}\n` +
                         `\u001b[35;1m => \u001b[36;1m# of expected parameters: \u001b[33;1m${f}\u001b[0m`);
                     }
-                    else if (reservedAliases.includes(readArr[0])) {
-                        let info =
-                    }
-                    else if (reservedCommands.includes(readArr[0])) {
-                        switch (readArr[0]) {
-
-                        }
+                    else if (reservedCommands.includes(readArr[0]) || reservedAliases(readArr[0])) {
+                        
                     }
                     else {
                         console.log(`\u001b[35;1mFConsoleRead >\n` + 
@@ -127,6 +120,12 @@ module.exports = class FConsoleRead {
                         }
                         argsArr.push(sendArr);
                     }
+                    else if (readArr[i] === "-true" || "-false") {
+                        switch (readArr[i]) {
+                            case "-true"  : argsArr.push(true); break;
+                            case "-false" : argsArr.push(false); break;
+                        }
+                    }
                     else {
                         if (i <= end) continue;
                         else argsArr.push(readArr[i]);
@@ -137,12 +136,17 @@ module.exports = class FConsoleRead {
         });
 
         stdin.on('close', c => {
-            console.log(c);
-            console.log(options.exitFunction);
-            let exitFunc = options.exit.function;
-            console.log('after' + "");
+            let exitFunc = options.exit.exitFunction;
             let param = "New String!!!";
+            console.log("\x1b[1m\x1b[31m\nExiting...");
             exitFunc(param);
-        })
+        });
+
+        process.on('exit', c => {
+            let exitFunc = options.exit.exitFunction;
+            let param = "Param String";
+            console.log("\x1b[1m\x1b[31m\nTerminating Node Process...");
+            exitFunc(param);
+        });
     }
 }
