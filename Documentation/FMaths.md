@@ -6,11 +6,11 @@ A general Node.js javascript library for plenty of useful math functions.
 
 - [Usage](#usage)
 - [Functions](#functions)
-  - [Factorial(n)](#factorialn)
-  - [CheckPrime(n)](#checkprimen)
-  - [Pascal(n)](#pascaln)
+  - [factorial(n)](#factorialn)
+  - [checkPrime(n)](#checkprimen)
+  - [pascal(n)](#pascaln)
   - [nCr(n, r)](#nCrn-r)
-  - [BinomialTheorem(n, o, a, b, x, y)](#binomialtheoremn-o-a-b-x-y)
+  - [cinomialTheorem(n, o, a, b, x, y)](#binomialtheoremn-o-a-b-x-y)
 - [Contributors](#contributors)
 
 ## Usage
@@ -27,7 +27,7 @@ var flib = require('foxlib');
 
 A quick example of using a function:
 ```javascript
-console.log(flib.CheckPrime(7));
+console.log(flib.checkPrime(7));
 // logs "true"
 ```
 
@@ -35,7 +35,7 @@ console.log(flib.CheckPrime(7));
 
 This is a list of functions written into the FMaths library.
 
-### Factorial(n)
+### factorial(n)
 
 Evaluates `n` factorial (n!).  
 Returns `int`.
@@ -48,7 +48,7 @@ console.log(flib.Factorial(12));
 // logs "479001600"
 ```
 
-### CheckPrime(n)
+### checkPrime(n)
 
 Checks if `n` is a prime number.  
 Returns `bool`.
@@ -63,7 +63,7 @@ console.log(flib.CheckPrime(6));
 // logs "false"
 ```
 
-### Pascal(n)
+### pascal(n)
 
 Generates [Pascal's Triangle](https://en.wikipedia.org/wiki/Pascal%27s_triangle) up to the `n`'th row.  
 Returns `array[][]`.
@@ -90,7 +90,7 @@ console.log(fm.nCr(4, 2))
 // healthy reminder that arrays start at [0], not [1].
 ```
 
-### BinomialTheorem(n, o, a, b, x, y)
+### binomialTheorem(n, o, a, b, x, y)
 
 Expands a binomial of the form `(xa +/- yb)^n`.  
 Returns `string`.
