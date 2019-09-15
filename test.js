@@ -1,8 +1,8 @@
 'use strict';
 
-const FMaths = require('./src/FMaths');
+const {FMaths} = require('./index.js');
 const fm = new FMaths();
-const FLogger = require('./src/FLogger');
+const {FLogger} = require('./index.js');
 const fl = new FLogger({
     writeToText: false,
     timestamps: true,
@@ -15,7 +15,7 @@ function Function(param) {
     console.log("heeel yea");
     console.log(param);
 }
-const FConsoleInput = require('./src/FConsoleInput');
+const {FConsoleInput} = require('./index.js');
 const fci = new FConsoleInput({
     commands: {
         help: () => {

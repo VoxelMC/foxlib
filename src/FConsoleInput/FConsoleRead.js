@@ -24,7 +24,7 @@ module.exports = class FConsoleRead {
                 ], [
                     "-exit, -e", "-exitread, -er", "-report, -r", "-help [command], -h [command]", "-usage [type], -u [type]"
                 ]
-            ]
+            ];
             let cmdCheck = false;
 
             reservedAliases.push(options.exit.command); l = reservedAliases.length - 1;
@@ -71,10 +71,10 @@ module.exports = class FConsoleRead {
             }
             
             if (!Object.keys(options.commands).includes(command) && cmdCheck) {
-                    return console.log("FConsoleRead > Command not recognized!");
+                return console.log("FConsoleRead > Command not recognized!");
             }
             else if (Object.keys(options.commands).includes(command) && cmdCheck) {
-                console.log("Command is: " + command); // Remove after complete.
+                // console.log("Command is: " + command); // Remove after complete.
                 let Pass = options.commands[command];
                 let end;
 
@@ -93,6 +93,7 @@ module.exports = class FConsoleRead {
 
                         argsArr.push(sendArr.join(" "));
                     }
+
                     else if (readArr[i] === "-num") {
                         let sendArr = [];
                         let numBegin = parseInt(i) + 1;
@@ -107,6 +108,7 @@ module.exports = class FConsoleRead {
                         }
                         argsArr.push(parseInt(eval(sendArr.join(''))));
                     }
+
                     else if (readArr[i] === "-array") {
                         let sendArr = [];
                         let arrBegin = parseInt(i) + 1;
@@ -120,12 +122,14 @@ module.exports = class FConsoleRead {
                         }
                         argsArr.push(sendArr);
                     }
+
                     else if (readArr[i] === "-true" || "-false") {
                         switch (readArr[i]) {
                             case "-true"  : argsArr.push(true); break;
                             case "-false" : argsArr.push(false); break;
                         }
                     }
+                    
                     else {
                         if (i <= end) continue;
                         else argsArr.push(readArr[i]);

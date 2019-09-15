@@ -14,7 +14,7 @@
          * Option to log Write();
          * */
         const fs = require('fs');
-        const FMaths = require('../FMaths');
+        const FMaths = require('../FMaths/FMaths.js');
         const fm = new FMaths();
 
         // Defaults
@@ -60,7 +60,7 @@
     }
 
     timestamp(time = new Date()) {
-        const FMaths = require('../FMaths');
+        const FMaths = require('../FMaths/FMaths.js');
         const fm = new FMaths();
         var output = `[${fm.addZero(time.getHours(), 2)}:` +
         `${fm.addZero(time.getMinutes(), 2)}:` +
