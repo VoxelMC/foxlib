@@ -1,11 +1,12 @@
 module.exports = class FConsoleRead {
-    constructor(options) {
+    constructor(options, onceEnable) {
         let stdin = process.stdin;
         let commandsInput = 0;
 
         stdin.setEncoding('utf-8');
         
         stdin.on("data", data => {
+            let once = onceEnable;
             let send = data.slice(0, -2).split(" "); 
             let command = send.shift();
             let readArr = Array.from(send);
@@ -24,7 +25,7 @@ module.exports = class FConsoleRead {
                 ], [
                     "-exit, -e", "-exitread, -er", "-report, -r", "-help [command], -h [command]", "-usage [type], -u [type]"
                 ]
-            ];
+            ]
             let cmdCheck = false;
 
             reservedAliases.push(options.exit.command); l = reservedAliases.length - 1;
@@ -55,7 +56,33 @@ module.exports = class FConsoleRead {
                         `\u001b[35;1m => \u001b[36;1m# of expected parameters: \u001b[33;1m${f}\u001b[0m`);
                     }
                     else if (reservedCommands.includes(readArr[0]) || reservedAliases.includes(readArr[0])) {
-                        
+                        switch(readArr[0]) {
+                            case reservedAliases[0]: case reservedCommands[0]: 
+                                console.log(`\u001b[35;1mFConsoleRead >\n` + 
+                                `Command Name, Alias: ${commandInfo[1][0]}\n` +
+                                `\u001b[35;1m => \u001b[36;1m${commandInfo[0][0]}`);
+                                break;
+                            case reservedAliases[1]: case reservedCommands[1]:
+                                console.log(`\u001b[35;1mFConsoleRead >\n` + 
+                                `Command Name, Alias: ${commandInfo[1][1]}\n` +
+                                `\u001b[35;1m => \u001b[36;1m${commandInfo[0][1]}`);
+                                break;
+                            case reservedAliases[2]: case reservedCommands[2]:
+                                console.log(`\u001b[35;1mFConsoleRead >\n` + 
+                                `Command Name, Alias: ${commandInfo[1][2]}\n` +
+                                `\u001b[35;1m => \u001b[36;1m${commandInfo[0][2]}`);
+                                break;
+                            case reservedAliases[3]: case reservedCommands[3]:
+                                console.log(`\u001b[35;1mFConsoleRead >\n` + 
+                                `Command Name, Alias: ${commandInfo[1][3]}\n` +
+                                `\u001b[35;1m => \u001b[36;1m${commandInfo[0][3]}`);
+                                break;
+                            case reservedAliases[4]: case reservedCommands[4]:
+                                console.log(`\u001b[35;1mFConsoleRead >\n` + 
+                                `Command Name, Alias: ${commandInfo[1][4]}\n` +
+                                `\u001b[35;1m => \u001b[36;1m${commandInfo[0][4]}`);
+                                break;
+                        }
                     }
                     else {
                         console.log(`\u001b[35;1mFConsoleRead >\n` + 
@@ -71,10 +98,9 @@ module.exports = class FConsoleRead {
             }
             
             if (!Object.keys(options.commands).includes(command) && cmdCheck) {
-                return console.log("FConsoleRead > Command not recognized!");
+                    return console.log("FConsoleRead > Command not recognized!");
             }
             else if (Object.keys(options.commands).includes(command) && cmdCheck) {
-                // console.log("Command is: " + command); // Remove after complete.
                 let Pass = options.commands[command];
                 let end;
 
@@ -93,7 +119,6 @@ module.exports = class FConsoleRead {
 
                         argsArr.push(sendArr.join(" "));
                     }
-
                     else if (readArr[i] === "-num") {
                         let sendArr = [];
                         let numBegin = parseInt(i) + 1;
@@ -108,7 +133,6 @@ module.exports = class FConsoleRead {
                         }
                         argsArr.push(parseInt(eval(sendArr.join(''))));
                     }
-
                     else if (readArr[i] === "-array") {
                         let sendArr = [];
                         let arrBegin = parseInt(i) + 1;
@@ -122,35 +146,36 @@ module.exports = class FConsoleRead {
                         }
                         argsArr.push(sendArr);
                     }
-
                     else if (readArr[i] === "-true" || "-false") {
                         switch (readArr[i]) {
                             case "-true"  : argsArr.push(true); break;
                             case "-false" : argsArr.push(false); break;
                         }
                     }
-                    
                     else {
                         if (i <= end) continue;
                         else argsArr.push(readArr[i]);
                     }
                 }
                 Pass.apply(this, argsArr);
+                if (once) {
+                    stdin.destroy();
+                }
             }
         });
 
         stdin.on('close', c => {
             let exitFunc = options.exit.exitFunction;
-            let param = "New String!!!";
-            console.log("\x1b[1m\x1b[31m\nExiting...");
+            let param = true;
             exitFunc(param);
+            console.log("\x1b[1m\x1b[31m\nExiting...");
         });
 
         process.on('exit', c => {
             let exitFunc = options.exit.exitFunction;
-            let param = "Param String";
-            console.log("\x1b[1m\x1b[31m\nTerminating Node Process...");
+            let param = true;
             exitFunc(param);
+            console.log("\x1b[1m\x1b[31m\nTerminating Node Process...");
         });
     }
 }

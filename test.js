@@ -1,8 +1,8 @@
 'use strict';
 
-const {FMaths} = require('./index.js');
+const FMaths = require('./src/FMaths');
 const fm = new FMaths();
-const {FLogger} = require('./index.js');
+const FLogger = require('./src/FLogger');
 const fl = new FLogger({
     writeToText: false,
     timestamps: true,
@@ -15,7 +15,7 @@ function Function(param) {
     console.log("heeel yea");
     console.log(param);
 }
-const {FConsoleInput} = require('./index.js');
+const FConsoleInput = require('./src/FConsoleInput');
 const fci = new FConsoleInput({
     commands: {
         help: () => {
@@ -27,8 +27,11 @@ const fci = new FConsoleInput({
             console.log(arg1);
             console.log(arg2 + " ARGS");
         },
-        function: (param) => {
-            Function(param);
+        testFuncion: (param) => {
+            testFunction(param)
+            .then(a => console.log(a))
+            .catch(a => console.log(a))
+            .finally(() => console.log("This is in the finally."));
         },
         add: (n1, n2) => {
             console.log(Add(n1, n2));
@@ -150,3 +153,20 @@ var v2 = new Date().getTime();
 var mseconds = v2 - v1;
 
 console.log(mseconds + " ms to process.");
+
+function testFunction(param) {
+    return new Promise((resolve, reject) => {
+        if (param == 1) {
+            resolve([true, param, "stringsucceed"]);
+        }
+        if (param > 1) {
+            resolve([true, param, 'stringgreater']);
+        }
+        if (param < 1) {
+            reject([false, param, 'string lesser']);
+        }
+        if (!param) {
+            reject("there is no parameter to reject.");
+        }
+    });
+}

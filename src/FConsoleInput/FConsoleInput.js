@@ -1,7 +1,7 @@
 module.exports = class FConsoleInput {
     /**
      * 
-     * @param { { commands: { command: Function }, exit: { command: string, exitFunction: Function } } } options 
+     * @param { { commands: { string: Function }, exit: { command: string, exitFunction: Function } } } options 
      *  
      */
     constructor(options = { 
@@ -11,8 +11,9 @@ module.exports = class FConsoleInput {
         this.options = options;
     }
     
-    readCommand(amt) {
-        // I want this to start an FConsoleRead for one command, then immediately end the stream.
+    readCommand() {
+        var FConsoleRead = require('./FConsoleRead.js');
+        return new FConsoleRead(this.options, true);
     }
 
     startRead() {
