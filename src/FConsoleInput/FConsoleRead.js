@@ -7,35 +7,27 @@ module.exports = class FConsoleRead {
         
         stdin.on("data", data => {
             let once = onceEnable;
-            let send = data.slice(0, -2).split(" "); 
-            let command = send.shift();
-            let readArr = Array.from(send);
-            let argsArr = [];
+            let send = data.slice(0, -2).split(" ");    // Array to parse 
+            let command = send.shift();                 // First element of send array is the command
+            let readArr = Array.from(send);             // New array from send
+            let argsArr = [];                           // Emtry array to be filled with arguments for command method
             let l, reservedCommands = [
-                "-exit", "-exitread", "-report", "-help", "-usage"
+                "-exit", "-exitread", "-report", "-help", "-usage"      // Reserved Commands
             ];
             let reservedAliases = [
-                "-e", "-er", "-r", "-h", "-u"
+                "-e", "-er", "-r", "-h", "-u"                           // Reserved Command Aliases
             ];
-            let commandInfo = [
-                [
-                    "Exits the Node process.", "Exits the FConsoleRead process.", "Displays # of commands used", 
-                    "Displays a help menu containing all reserved and custom commands. Optional argument for info on a specific command.",
-                    "Displays the usage of datatype flags."
-                ], [
-                    "-exit, -e", "-exitread, -er", "-report, -r", "-help [command], -h [command]", "-usage [type], -u [type]"
-                ]
-            ]
+            
             let cmdCheck = false;
 
             reservedAliases.push(options.exit.command); l = reservedAliases.length - 1;
-
+            // Check if Reserved Command
             if (!reservedCommands.includes(command) && !reservedAliases.includes(command)) cmdCheck = true;
 
             if (Object.keys(options.commands).includes(command) && !cmdCheck) {
                 console.log(`\u001b[33;1mFConsoleRead > ${command} is a reserved command name! Please change this command name.\u001b[0m`);
             }
-            
+            // Reserved Commands
             switch (command) {
                 case reservedCommands[0]  :  case reservedAliases[0]  :  
                     process.exit();
@@ -56,33 +48,22 @@ module.exports = class FConsoleRead {
                         `\u001b[35;1m => \u001b[36;1m# of expected parameters: \u001b[33;1m${f}\u001b[0m`);
                     }
                     else if (reservedCommands.includes(readArr[0]) || reservedAliases.includes(readArr[0])) {
-                        switch(readArr[0]) {
-                            case reservedAliases[0]: case reservedCommands[0]: 
-                                console.log(`\u001b[35;1mFConsoleRead >\n` + 
-                                `Command Name, Alias: ${commandInfo[1][0]}\n` +
-                                `\u001b[35;1m => \u001b[36;1m${commandInfo[0][0]}`);
-                                break;
-                            case reservedAliases[1]: case reservedCommands[1]:
-                                console.log(`\u001b[35;1mFConsoleRead >\n` + 
-                                `Command Name, Alias: ${commandInfo[1][1]}\n` +
-                                `\u001b[35;1m => \u001b[36;1m${commandInfo[0][1]}`);
-                                break;
-                            case reservedAliases[2]: case reservedCommands[2]:
-                                console.log(`\u001b[35;1mFConsoleRead >\n` + 
-                                `Command Name, Alias: ${commandInfo[1][2]}\n` +
-                                `\u001b[35;1m => \u001b[36;1m${commandInfo[0][2]}`);
-                                break;
-                            case reservedAliases[3]: case reservedCommands[3]:
-                                console.log(`\u001b[35;1mFConsoleRead >\n` + 
-                                `Command Name, Alias: ${commandInfo[1][3]}\n` +
-                                `\u001b[35;1m => \u001b[36;1m${commandInfo[0][3]}`);
-                                break;
-                            case reservedAliases[4]: case reservedCommands[4]:
-                                console.log(`\u001b[35;1mFConsoleRead >\n` + 
-                                `Command Name, Alias: ${commandInfo[1][4]}\n` +
-                                `\u001b[35;1m => \u001b[36;1m${commandInfo[0][4]}`);
-                                break;
-                        }
+                        let commandInfo = [                                         // Array of strings to describe each command
+                            [
+                                "Exits the Node process.", "Exits the FConsoleRead process.", "Displays # of commands used", 
+                                "Displays a help menu containing all reserved and custom commands. Optional argument for info on a specific command.",
+                                "Displays the usage of datatype flags."
+                            ], [
+                                "-exit, -e", "-exitread, -er", "-report, -r", "-help [command], -h [command]", "-usage [type], -u [type]"
+                            ]
+                        ];
+                        let indOfRC;
+                        if (reservedAliases.includes(readArr[0])) indOfRC = reservedAliases.indexOf(readArr[0]);
+                        else if (reservedCommands.includes(readArr[0])) indOfRC = reservedCommands.indexOf(readArr[0]);
+                        console.log(`\u001b[35;1mFConsoleRead >\n` + 
+                            `Command Name, Alias: ${commandInfo[1][indOfRC]}\n` +
+                            `\u001b[35;1m => \u001b[36;1m${commandInfo[0][indOfRC]}\u001b[0m`
+                        );
                     }
                     else {
                         console.log(`\u001b[35;1mFConsoleRead >\n` + 
@@ -131,7 +112,7 @@ module.exports = class FConsoleRead {
                             }
                             else break;
                         }
-                        argsArr.push(parseInt(eval(sendArr.join(''))));
+                        argsArr.push(parseInt(sendArr.reduce((p, n) => parseInt(p) + parseInt(n))));
                     }
                     else if (readArr[i] === "-array") {
                         let sendArr = [];
