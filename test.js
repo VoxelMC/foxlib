@@ -138,9 +138,9 @@ fl.write("hello there again");
 
 // setTimeout(() => {
 //     fl.Write("after 3 seconds");
-// }, 3000)
+// }, 3000);
 
-// fl.LogError({ filePath: path })
+// fl.LogError({ filePath: path });
 // fl.Log({}, "test");
 fl.seperator();
 var testvar = "abcdefg";
@@ -169,4 +169,19 @@ function testFunction(param) {
             reject("there is no parameter to reject.");
         }
     });
+}
+
+const { FArray } = require('./index.js');
+
+let farray = new FArray('test', true, 'test2', 4, 1, 2, 3, 4);
+console.log(farray.uppercaseAtIndex(0));
+console.log(farray.uppercaseAtIndex(1));
+console.log(farray.uppercaseAtIndex(2));
+console.log(farray.lowercaseAtIndex(0));
+const mapper = new Map([['1', 'a'], ['2', 'b']]);
+let another = new FArray().from(mapper.values());
+console.log(another);
+console.log(farray.edges());
+for (let item of farray) {
+    console.log(item);
 }

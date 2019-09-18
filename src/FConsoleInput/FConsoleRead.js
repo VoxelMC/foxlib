@@ -10,7 +10,7 @@ module.exports = class FConsoleRead {
             let send = data.slice(0, -2).split(" ");    // Array to parse 
             let command = send.shift();                 // First element of send array is the command
             let readArr = Array.from(send);             // New array from send
-            let argsArr = [];                           // Emtry array to be filled with arguments for command method
+            let argsArr = [];                           // Entry array to be filled with arguments for command method
             let l, reservedCommands = [
                 "-exit", "-exitread", "-report", "-help", "-usage"      // Reserved Commands
             ];
@@ -97,7 +97,6 @@ module.exports = class FConsoleRead {
                             if (readArr[strBegin] !== "-s") sendArr.push(readArr[strBegin]);
                             else break;
                         }
-
                         argsArr.push(sendArr.join(" "));
                     }
                     else if (readArr[i] === "-num") {
