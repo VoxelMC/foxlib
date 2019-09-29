@@ -182,6 +182,10 @@ const mapper = new Map([['1', 'a'], ['2', 'b']]);
 let another = new FArray().from(mapper.values());
 console.log(another);
 console.log(farray.edges());
-for (let item of farray) {
+farray.push("test again"); // Testing extension of array class
+console.log(farray);
+for (let item of farray) { // Shows iterable
     console.log(item);
 }
+
+const foxlib = require('./index.js');

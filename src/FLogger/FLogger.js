@@ -15,7 +15,6 @@
          * */
         const fs = require('fs');
         const FMaths = require('../FMaths/FMaths.js');
-        const fm = new FMaths();
 
         // Defaults
         if (typeof options.writeToText !== "boolean") throw new Error("Property: writeToText must be present and a boolean.");
@@ -43,9 +42,9 @@
         // If writeToText is true, create an empty .txt file.
         if (this.writeToText) {
             const d = new Date();
-            this.fileName = `${this.path}${fm.addZero(d.getFullYear(), 2)}-` +
-            `${fm.addZero(d.getMonth(), 2)}-${fm.addZero(d.getDate(), 2)}_` +
-            `${fm.addZero(d.getHours(), 2)}.${fm.addZero(d.getMinutes(), 2)}-` +
+            this.fileName = `${this.path}${FMaths.addZero(d.getFullYear(), 2)}-` +
+            `${FMaths.addZero(d.getMonth(), 2)}-${FMaths.addZero(d.getDate(), 2)}_` +
+            `${FMaths.addZero(d.getHours(), 2)}.${FMaths.addZero(d.getMinutes(), 2)}-` +
             `LOG.txt`;
       
             // Write data in 'Output.txt' . 
@@ -61,10 +60,9 @@
 
     timestamp(time = new Date()) {
         const FMaths = require('../FMaths/FMaths.js');
-        const fm = new FMaths();
-        var output = `[${fm.addZero(time.getHours(), 2)}:` +
-        `${fm.addZero(time.getMinutes(), 2)}:` +
-        `${fm.addZero(time.getSeconds(), 2)}] `;
+        var output = `[${FMaths.addZero(time.getHours(), 2)}:` +
+        `${FMaths.addZero(time.getMinutes(), 2)}:` +
+        `${FMaths.addZero(time.getSeconds(), 2)}] `;
         return output;
     }
     

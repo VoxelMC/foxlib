@@ -1,6 +1,6 @@
 {
   "name": "foxlib",
-  "version": "1.2.0",
+  "version": "1.2.4",
   "description": "foxlib is a general library developed for Node.js",
   "main": "index.js",
   "author": "Trevor Fox",
@@ -14,6 +14,5 @@
     "url": "https://github.com/VoxelMC/foxlib/"
   },
   "dependencies": {
-    "jshint": "^2.10.2"
   }
 }

@@ -7,7 +7,7 @@ module.exports = class FConsoleRead {
         
         stdin.on("data", data => {
             let once = onceEnable;
-            let send = data.slice(0, -2).split(" ");    // Array to parse 
+            let send = data.replace(/(\r\n|\n|\r)/gmi, "").split(" ");    // Array to parse 
             let command = send.shift();                 // First element of send array is the command
             let readArr = Array.from(send);             // New array from send
             let argsArr = [];                           // Entry array to be filled with arguments for command method
@@ -84,10 +84,11 @@ module.exports = class FConsoleRead {
             else if (Object.keys(options.commands).includes(command) && cmdCheck) {
                 let Pass = options.commands[command];
                 let end;
+                let bools = ["-true", "-false"];
 
                 commandsInput++;
 
-                for (let i in readArr) {
+                for (let i = 0; i < readArr.length; i++) {
                     if (readArr[i] === "-string") {
                         let sendArr = [];
                         let strBegin = parseInt(i) + 1;
@@ -98,6 +99,7 @@ module.exports = class FConsoleRead {
                             else break;
                         }
                         argsArr.push(sendArr.join(" "));
+                        continue;
                     }
                     else if (readArr[i] === "-num") {
                         let sendArr = [];
@@ -112,6 +114,7 @@ module.exports = class FConsoleRead {
                             else break;
                         }
                         argsArr.push(parseInt(sendArr.reduce((p, n) => parseInt(p) + parseInt(n))));
+                        continue;
                     }
                     else if (readArr[i] === "-array") {
                         let sendArr = [];
@@ -125,16 +128,20 @@ module.exports = class FConsoleRead {
                             else break;
                         }
                         argsArr.push(sendArr);
+                        continue;
                     }
-                    else if (readArr[i] === "-true" || "-false") {
+                    else if (bools.includes(readArr[i])) {
                         switch (readArr[i]) {
                             case "-true"  : argsArr.push(true); break;
                             case "-false" : argsArr.push(false); break;
                         }
+                        continue;
                     }
                     else {
+                        if (!end) end = -1;
                         if (i <= end) continue;
-                        else argsArr.push(readArr[i]);
+                        else argsArr.push(readArr[i].toString());
+                        continue;
                     }
                 }
                 Pass.apply(this, argsArr);

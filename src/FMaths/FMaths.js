@@ -19,14 +19,14 @@ module.exports = class FMaths {
      * @return { number } 
      *  Returns x with zeroes in front to n length.
      */
-    addZero(x, n) {
+    static addZero(x, n) {
         while (x.toString().length < n) {
           x = "0" + x;
         }
         return x;
     }
 
-    round(n, type) {
+    static round(n, type) {
         // types can be undefined for normal, c for ceiling, and f for floor.
         // slice the integer from the decimals, figure out if decimal is bigger or smaller than 5, then make decimal 0, increasing the integer if decimal is bigger than 5.
         // or, loop through the number, adding each number to a variable, until it reaches a '.', then break from the loop, then loop again through the decimals.
@@ -65,7 +65,7 @@ module.exports = class FMaths {
      * @return { number }
      *  Returns n factorial.
      */
-    factorial(n) {
+    static factorial(n) {
         return n ? n * this.Factorial(n - 1) : 1;
     }
 
@@ -78,7 +78,7 @@ module.exports = class FMaths {
      * @return { boolean } 
      *  Boolean
      */
-    checkPrime(n) { // make a mersenne prime checker, as well.
+    static checkPrime(n) { // make a mersenne prime checker, as well.
         var s = true;
         if (n === 1) {
             s = true;
@@ -106,7 +106,7 @@ module.exports = class FMaths {
      * @return 
      *  A nested array with rows of Pascal's Triangle up to the n'th row.
      */
-    pascal(n) {
+    static pascal(n) {
         let result = [];
         result[0] = [1];
         result[1] = [1, 1];
@@ -131,7 +131,7 @@ module.exports = class FMaths {
      * @return { number }
      *  Returns term in column r of row n.
      */
-    nCr(n, r) {
+    static nCr(n, r) {
         let output;
         if (r <= n) {
             output = this.pascal(n);
@@ -162,7 +162,7 @@ module.exports = class FMaths {
      */
     // May have to attempt to overhaul the system with a different equation to allow for (xa + yb)^n
     // Start with overhauling the parameters, so that they are properties.
-    binomialTheorem(x, o, a, b, aconst, bconst) {
+    static binomialTheorem(x, o, a, b, aconst, bconst) {
         var aexp = x;
         var bexp = 0;
         var result = "";
@@ -249,7 +249,7 @@ module.exports = class FMaths {
         }
     } // End of BinomialTheorem();
 
-    findPrimeInPascal(n) {
+    static findPrimeInPascal(n) {
         var ctr = -1;
         var Prime = new Float64Array(50000);
         var pascal = fm.Pascal(n);
@@ -294,7 +294,7 @@ module.exports = class FMaths {
      * @return { number }
      *  Returns number of real solutions.
      */
-    discriminant(a, b, c) {
+    static discriminant(a, b, c) {
         var discriminant = b ** 2 - 4 * a * c;
         if (discriminant > 0) {
             return 2;
@@ -322,7 +322,7 @@ module.exports = class FMaths {
      * @return { number[] }
      *  Returns an array including all real solutions. 
      */
-    quadraticForm(a, b, c) {
+    static quadraticForm(a, b, c) {
         var negb = b - (b * 2);
         var discriminant = Discriminant(a, b, c);
         var output = [];
@@ -366,7 +366,7 @@ module.exports = class FMaths {
      * @return { number }
      *  Returns the Greatest Common Denominator of a and b.
      */
-    gcdEuclid(a, b) {
+    static gcdEuclid(a, b) {
         var t;
         // This variable stores the previous iteration
         while (b !== 0) {
@@ -387,7 +387,7 @@ module.exports = class FMaths {
      * @return { number }
      *  Returns angle in radians.
      */
-    radians(n) {
+    static radians(n) {
         var output = Math.PI * n / 180;
         return output;
     }
@@ -401,19 +401,19 @@ module.exports = class FMaths {
      * @return { number }
      *  Returns angle in degrees.
      */
-    degrees(n) {
+    static degrees(n) {
         var output = n / Math.PI * 180;
         return output;
     }
     
-    hPythagoras(a, b) {
+    static hPythagoras(a, b) {
         var c;
         var c2 = (a ** 2) + (b ** 2);
         c = Math.sqrt(c2);
         return c;
     }
     // try to join these.
-    sPythagoras(b, c) {
+    static sPythagoras(b, c) {
         var a;
         var a2 = (b ** 2) - (c ** 2);
         a = Math.sqrt(a2);
