@@ -179,13 +179,19 @@ console.log(farray.uppercaseAtIndex(1));
 console.log(farray.uppercaseAtIndex(2));
 console.log(farray.lowercaseAtIndex(0));
 const mapper = new Map([['1', 'a'], ['2', 'b']]);
-let another = new FArray().from(mapper.values());
-console.log(another);
+// let another = FArray.from(mapper.values());
+// let another2 = Array.from(mapper.values());
+let another = FArray.from("mapper.values()");
+let another2 = Array.from("mapper.values()");
+console.log(another, "\n", another2);
 console.log(farray.edges());
+console.log(farray.trim());
 farray.push("test again"); // Testing extension of array class
-console.log(farray);
+console.log(farray.empty);
 for (let item of farray) { // Shows iterable
     console.log(item);
 }
 
 const foxlib = require('./index.js');
+
+console.log(";" === ";d");

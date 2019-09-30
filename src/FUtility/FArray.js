@@ -29,12 +29,27 @@ module.exports = class FArray extends Array {
         return iterator;
     }
 
-    // Create FArray from native array
-    from(source) {
-        for (let element of source) {
-            this.push(element);
-        }
-        return this;
+    // Create FArray from native array - Array class already got this covered, apparently. Delete later.
+    // static from(source) {
+    //     let out = new FArray()
+    //     for (let e of source) {
+    //         out.push(e);
+    //     }
+    //     return out;
+    // }
+
+
+    // Gets last element
+    get last() {
+        return this.empty ? null : this[this.length - 1];
+    }
+
+    get first() {
+        return this.empty ? null : this[0];
+    }
+
+    get empty() {
+        return this[0] === undefined;
     }
 
     // Make an element in FArray at index i Majescule
@@ -53,7 +68,7 @@ module.exports = class FArray extends Array {
         return this;
     }
 
-    // Return first and last elements from array
+    // Removes then Returns first and last elements from array
     edges(T) {
         let out = [];
         out.push(this.splice(0, 1).toString());
@@ -62,7 +77,7 @@ module.exports = class FArray extends Array {
         else return this;
     }
 
-    // Return inside of array
+    // Removes then Returns the inside of array
     trim(T) {
         let out = [];
         this.pop();
