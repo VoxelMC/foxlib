@@ -1,23 +1,24 @@
-module.exports = class FConsoleInput {
+export class FConsoleInput {
+    options: { commands: { commandNameString?: Function }; exit: { command?: string; exitFunction?: Function; }; };
     /**
      * 
      * @param { { commands: { string: Function }, exit: { command: string, exitFunction: Function } } } options 
      *  
      */
-    constructor(options = { 
+    constructor(options: { commands: { commandNameString?: Function }; exit: { command?: string; exitFunction?: Function; }; } = { 
         commands: { }, 
-        exit: { command, exitFunction: { } },
+        exit: { command: undefined, exitFunction: undefined },
     }) {
         this.options = options;
     }
     
     readCommand() {
-        var FConsoleRead = require('./FConsoleRead.js');
+        const FConsoleRead = require('./FConsoleRead.js');
         return new FConsoleRead(this.options, true);
     }
 
     startRead() {
-        var FConsoleRead = require('./FConsoleRead.js');
+        const FConsoleRead = require('./FConsoleRead.js');
         return new FConsoleRead(this.options);
     }
 }

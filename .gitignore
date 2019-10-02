@@ -6,3 +6,5 @@ Logs
 testclass.js
 .jshintrc
 package-lock.json
+node_modules
+src/test.ts

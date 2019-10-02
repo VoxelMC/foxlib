@@ -2,10 +2,13 @@
   "name": "foxlib",
   "version": "1.2.4",
   "description": "foxlib is a general library developed for Node.js",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "author": "Trevor Fox",
   "scripts": {
-    "test": "node test.js"
+    "test": "node dist/test.js",
+    "build": "tsc",
+    "builddec": "tsc -d"
   },
   "license": "MIT",
   "homepage": "github:voxelmc/foxlib",
@@ -14,5 +17,9 @@
     "url": "https://github.com/VoxelMC/foxlib/"
   },
   "dependencies": {
+    "@types/node": "^12.7.9"
+  },
+  "devDependencies": {
+    "typescript": "^3.6.3"
   }
 }

@@ -3,8 +3,9 @@
  *  foxlib Maths Library
  *  (In the future each of these methods will be seperated into different source files.)
  */
-module.exports = class FMaths {
-    constructor(n) {
+export class FMaths {
+    n: number;
+    constructor(n: number) {
         this.n = n;
     }
     
@@ -19,14 +20,15 @@ module.exports = class FMaths {
      * @return { number } 
      *  Returns x with zeroes in front to n length.
      */
-    static addZero(x, n) {
+    static addZero(x: number, n: number): number {
         while (x.toString().length < n) {
-          x = "0" + x;
+            let y: any = "0" + x;
+            x = parseInt(y)
         }
         return x;
     }
-
-    static round(n, type) {
+    /*
+    static round(n: Number, type: string) {
         // types can be undefined for normal, c for ceiling, and f for floor.
         // slice the integer from the decimals, figure out if decimal is bigger or smaller than 5, then make decimal 0, increasing the integer if decimal is bigger than 5.
         // or, loop through the number, adding each number to a variable, until it reaches a '.', then break from the loop, then loop again through the decimals.
@@ -54,7 +56,7 @@ module.exports = class FMaths {
         decimalsArray = Array.from(decimals.toString()).map(Number);
 
         return integer + " " + decimalPlace + " " + decimals;
-    }
+    }*/
 
     /**
      * Evaluates n!
@@ -65,8 +67,8 @@ module.exports = class FMaths {
      * @return { number }
      *  Returns n factorial.
      */
-    static factorial(n) {
-        return n ? n * this.Factorial(n - 1) : 1;
+    static factorial(n: number): number {
+        return n ? n * FMaths.factorial(n - 1) : 1;
     }
 
     /**
@@ -78,7 +80,7 @@ module.exports = class FMaths {
      * @return { boolean } 
      *  Boolean
      */
-    static checkPrime(n) { // make a mersenne prime checker, as well.
+    static checkPrime(n: number): boolean { // make a mersenne prime checker, as well.
         var s = true;
         if (n === 1) {
             s = true;
@@ -106,7 +108,7 @@ module.exports = class FMaths {
      * @return 
      *  A nested array with rows of Pascal's Triangle up to the n'th row.
      */
-    static pascal(n) {
+    static pascal(n: number): number[][] {
         let result = [];
         result[0] = [1];
         result[1] = [1, 1];
@@ -131,13 +133,13 @@ module.exports = class FMaths {
      * @return { number }
      *  Returns term in column r of row n.
      */
-    static nCr(n, r) {
+    static nCr(n: number, r: number): number {
         let output;
         if (r <= n) {
             output = this.pascal(n);
             return output[n][r];
         }
-        else return "'r' cannot be an integer higher than 'n'.";
+        else return -1;
     }
 
     /**
@@ -162,7 +164,7 @@ module.exports = class FMaths {
      */
     // May have to attempt to overhaul the system with a different equation to allow for (xa + yb)^n
     // Start with overhauling the parameters, so that they are properties.
-    static binomialTheorem(x, o, a, b, aconst, bconst) {
+    static binomialTheorem(x: number, o?: string, a?: any, b?: any, aconst?: number, bconst?: number): string {
         var aexp = x;
         var bexp = 0;
         var result = "";
@@ -170,7 +172,7 @@ module.exports = class FMaths {
         if (!aconst || aconst === 0) aconst = 1;
         if (!bconst || bconst === 0) bconst = 1;
 
-        if (!o === "+" || !o === "-") return console.log("invalid operator"); // assure that the input operator is either "+" or "-".
+        if (!(o === "+" || o === "-")) throw "Invalid Operator"; // assure that the input operator is either "+" or "-".
         else if (!o) o = "+"; // assume the operator is "+" if no operator is given.
 
         // ONLY X
@@ -247,19 +249,20 @@ module.exports = class FMaths {
             }
             return result;
         }
+
+        return "";
     } // End of BinomialTheorem();
 
-    static findPrimeInPascal(n) {
-        var ctr = -1;
-        var Prime = new Float64Array(50000);
-        var pascal = fm.Pascal(n);
+    static findPrimeInPascal(n: number): number[] {
+        var Prime: number[] = [];
+        var pascal = FMaths.pascal(n);
     
         for (var r in pascal) {
-            for (var n in pascal[r]) {
-                if (fm.CheckPrime(pascal[r][n])) {
-                    if (pascal[r][n] != 1) {
-                        try { ctr++;
-                            Prime[ctr] = pascal[r][n];
+            for (var c in pascal[r]) {
+                if (FMaths.checkPrime(pascal[r][c])) {
+                    if (pascal[r][c] != 1) {
+                        try {
+                            Prime.push(pascal[r][c]);
                         } catch {
                             break;
                         }
@@ -268,15 +271,13 @@ module.exports = class FMaths {
                 else continue;
             }
         }
-    
-        Prime
-        .filter(elem => elem != 0);
+        Prime.filter(elem => elem != 0);
     
         var rootedPrime = Prime.filter(function(item, index){
             return Prime.indexOf(item) >= index;
         });
     
-        return rootedPrime.sort().toString();
+        return rootedPrime.sort();
     }
 
     /**
@@ -294,7 +295,7 @@ module.exports = class FMaths {
      * @return { number }
      *  Returns number of real solutions.
      */
-    static discriminant(a, b, c) {
+    static discriminant(a: number, b: number, c: number): number {
         var discriminant = b ** 2 - 4 * a * c;
         if (discriminant > 0) {
             return 2;
@@ -322,9 +323,9 @@ module.exports = class FMaths {
      * @return { number[] }
      *  Returns an array including all real solutions. 
      */
-    static quadraticForm(a, b, c) {
+    static quadraticForm(a: number, b: number, c: number): number[] {
         var negb = b - (b * 2);
-        var discriminant = Discriminant(a, b, c);
+        var discriminant: number = FMaths.discriminant(a, b, c);
         var output = [];
         var s1, s2;
 
@@ -339,7 +340,7 @@ module.exports = class FMaths {
             output.push(s1);
         }
         else if (discriminant == 0) { // no real solutions
-            s1 = "Not Real";
+            s1 = 0;
             output.push(s1);
         }
         else throw new Error("Discriminant Failed");
@@ -366,7 +367,7 @@ module.exports = class FMaths {
      * @return { number }
      *  Returns the Greatest Common Denominator of a and b.
      */
-    static gcdEuclid(a, b) {
+    static gcdEuclid(a: number, b: number): number {
         var t;
         // This variable stores the previous iteration
         while (b !== 0) {
@@ -387,7 +388,7 @@ module.exports = class FMaths {
      * @return { number }
      *  Returns angle in radians.
      */
-    static radians(n) {
+    static radians(n: number): number {
         var output = Math.PI * n / 180;
         return output;
     }
@@ -401,19 +402,19 @@ module.exports = class FMaths {
      * @return { number }
      *  Returns angle in degrees.
      */
-    static degrees(n) {
+    static degrees(n: number): number {
         var output = n / Math.PI * 180;
         return output;
     }
     
-    static hPythagoras(a, b) {
+    static hPythagoras(a: number, b: number): number {
         var c;
         var c2 = (a ** 2) + (b ** 2);
         c = Math.sqrt(c2);
         return c;
     }
     // try to join these.
-    static sPythagoras(b, c) {
+    static sPythagoras(b: number, c: number): number {
         var a;
         var a2 = (b ** 2) - (c ** 2);
         a = Math.sqrt(a2);

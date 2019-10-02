@@ -1,10 +1,19 @@
-﻿module.exports = class FLogger {
+﻿export class FLogger {
+    writeToText: boolean;
+    timestamps: boolean;
+    logWrite: boolean;
+    path: string;
+    color: any;
+    warnings: boolean;
+    fileName: string | undefined;
+    stream: any;
     /**
      * @constructor 
-     * @param { { writeToText: Boolean, timestamps: Boolean, path: String, color: String, logWrite: Boolean } } options 
+     * @param { { writeToText: Boolean, timestamps: Boolean, path: String, color: String, logWrite: Boolean, warnings: Boolean } } options 
      *  'color' can be: 'red', 'green', 'yellow', 'blue', 'magenta', 'cyan', or 'white'. Defaults to 'white'.
      * */
-    constructor(options = { writeToText, timestamps, path, color, logWrite, warnings }) {
+    constructor(options: { writeToText: boolean; timestamps: boolean; path: string; color: string; logWrite: boolean; warnings: boolean} = 
+        { writeToText: false, timestamps: false, path: "./", color: "white", logWrite: false, warnings: false }) {
         /**
          * Options:
          * Write to a .txt file.
@@ -17,17 +26,12 @@
         const FMaths = require('../FMaths/FMaths.js');
 
         // Defaults
-        if (typeof options.writeToText !== "boolean") throw new Error("Property: writeToText must be present and a boolean.");
         this.writeToText = options.writeToText;
-        if (typeof options.timestamps !== "boolean") options.timestamps = false;
         this.timestamps = options.timestamps;
-        if (typeof options.logWrite !== "boolean") options.logWrite = false;
         this.logWrite = options.logWrite;
-        if (typeof options.path !== "string") options.path = "./";
         this.path = options.path.toString();
         if (!this.path.endsWith("/")) this.path += "/" ;
-        if (!this.color) this.color = 'white';
-        switch (this.color) {
+        switch (options.color) {
             case 'red'     :  this.color = '\x1b[31m'; break;
             case 'green'   :  this.color = '\x1b[32m'; break;
             case 'yellow'  :  this.color = '\x1b[93m'; break;
@@ -48,7 +52,7 @@
             `LOG.txt`;
       
             // Write data in 'Output.txt' . 
-            fs.writeFile(`${this.fileName}`, "", (err) => {
+            fs.writeFile(`${this.fileName}`, "", (err: any) => {
                 if (err) throw err; 
             });
 
@@ -66,10 +70,10 @@
         return output;
     }
     
-    write(str) {
+    write(str: string) {
         if (this.writeToText) {
             if (this.timestamps) str = this.timestamp() + str;
-            this.stream.write(`${str}\n`, (err) => {
+            this.stream.write(`${str}\n`, (err: { message: any; }) => {
                 if (err) console.log(err.message);
                 else {
                     if (this.logWrite) console.log(`Written ${str}`);
@@ -91,14 +95,17 @@
       * @private
       * This method is not meant for use, as it may cause you some unexpected problems. Use Write(str) instead.
       */
-    ___internalWrite(str) {
+    private _internalWrite(str: string) {
         if (this.timestamps) this.write(str.slice(20));
         else this.write(str.slice(9));
         str += `\x1b[0m`;
         console.log(str);
     }
 
-    log(type = { property, filePath, bounds }, str, highlight) {
+    log(
+        type: {property: any; filePath?: boolean; bounds?: boolean} = 
+        { property: undefined, filePath: undefined, bounds: undefined }, str: string, highlight: boolean
+    ) {
         var property, filePath, bounds; 
         var output = ""; 
 
@@ -132,7 +139,7 @@
         }
     }
     
-    logError(type = { property: {}, filePath, bounds }, str, highlight) {
+    logError(type = { property: {}, filePath: undefined, bounds: undefined }, str: string | boolean, highlight: boolean) {
         var property, filePath, bounds; 
         var output = ""; 
 
@@ -164,21 +171,21 @@
         }
         else { 
             output += `Error type not specified.`;
-            this.___internalWrite(output);
+            this._internalWrite(output);
         }
     }
     
-    seperator(str) {
+    seperator(str: string) {
         var output = "\x1b[96m\u2588\u2588\u2588 ";
         if (!str) str = "SEPERATOR";
         output += this.timestamp()
         output += `[SEP] \u2588 ###### ${str.toUpperCase()} ###### \u2588`;
-        this.___internalWrite(output);
+        this._internalWrite(output);
     }
 
     // ##### LOGTYPES ##### \\
 
-    _propLog(tobj, input, str, type) {
+    private _propLog(tobj?: any, input?: any, str?: any, type?: any) {
         // if (typeof type === "number") { throw new Error("\x1b[31mProperty: property of logError(type, str) must be a string.\x1b[0m"); } PROBABLY DONT NEED THIS
 
         if (typeof type === "undefined") {
@@ -198,10 +205,10 @@
         }
         var output = input;
 
-        this.___internalWrite(output);
+        this._internalWrite(output);
     }
 
-    _pathLog(tobj, input, str, type) {
+    private _pathLog(tobj?: any, input?: any, str?: any, type?: any) {
         // if (typeof type === "number") { throw new Error("\x1b[31mProperty: filePath of logError(type, str) must be a string or variable.\x1b[0m"); } AGAIN PROB DONT NEED.
 
         if (typeof type === "undefined") {
@@ -221,10 +228,10 @@
         }
         var output = input;
 
-        this.___internalWrite(output);
+        this._internalWrite(output);
     }
 
-    _boundsLog(tobj, input, str, type) {
+    private _boundsLog(tobj?: any, input?: any, str?: any, type?: any) {
         // if (typeof type === "number") { throw new Error("\x1b[31mProperty: bounds of logError(type, str) must be a string.\x1b[0m"); }
 
         if (typeof type === "undefined") {
@@ -244,10 +251,10 @@
         }
         var output = input;
 
-        this.___internalWrite(output);
+        this._internalWrite(output);
     }
 
-    _undefinedLog(str, input, type) {
+    private _undefinedLog(str?: any, input?: any, type?: any) {
         if (typeof type === "undefined") {
             input += `UndefinedLog: ${str}`;
         }
@@ -265,6 +272,6 @@
         }
         var output = input;
 
-        this.___internalWrite(output);
+        this._internalWrite(output);
     }
 }
