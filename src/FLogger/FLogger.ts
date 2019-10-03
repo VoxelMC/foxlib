@@ -6,7 +6,7 @@
     color: any;
     warnings: boolean;
     fileName: string | undefined;
-    stream: any;
+    private stream: any;
     /**
      * @constructor 
      * @param { { writeToText: Boolean, timestamps: Boolean, path: String, color: String, logWrite: Boolean, warnings: Boolean } } options 
